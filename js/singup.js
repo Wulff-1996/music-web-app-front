@@ -36,6 +36,7 @@ $(document).ready(function () {
     });
 
     signupBtn.on('click', function () {
+
         const emailValue = emailField.val();
         const passwordValue = passwordField.val();
         signupCustomer(emailValue, passwordValue);
