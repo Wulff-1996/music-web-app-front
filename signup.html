@@ -13,15 +13,58 @@
     <div class="auth-container-header">
         <h3>Music App</h3>
     </div>
-    <div class="auth-container-subtitle"><h5>Customer Signup</h5></div>
+    <div class="auth-container-subtitle"><h5>Signup</h5></div>
+
+    <div class="auth-container-section-header">Mandatory</div>
 
     <div class="auth-container-input">
-        <input id="emailField" placeholder="email" type="email" class="auth-container-input" required>
+        <input id="firstnameField" placeholder="first name" type="text" class="auth-container-input" required maxlength="40" minlength="1">
     </div>
 
     <div class="auth-container-input">
-        <input id="passwordField" placeholder="password" type="password" class="auth-container-input" required
-               minlength="1">
+        <input id="lastnameField" placeholder="last name" type="text" class="auth-container-input" required maxlength="20" minlength="1">
+    </div>
+
+    <div class="auth-container-input">
+        <input id="emailField" placeholder="email" type="email" class="auth-container-input" required maxlength="60">
+    </div>
+
+    <div class="auth-container-input">
+        <input id="passwordField" placeholder="password" type="password" class="auth-container-input" required minlength="1" maxlength="255">
+    </div>
+
+    <div class="auth-container-section-header">Optional</div>
+
+    <div class="auth-container-input">
+        <input id="phoneField" placeholder="phone" type="tel" class="auth-container-input" minlength="8" maxlength="24">
+    </div>
+
+    <div class="auth-container-input">
+        <input id="faxField" placeholder="fax" type="text" class="auth-container-input" maxlength="24">
+    </div>
+
+    <div class="auth-container-input">
+        <input id="companyField" placeholder="company" type="text" class="auth-container-input" maxlength="80">
+    </div>
+
+    <div class="auth-container-input">
+        <input id="addressField" placeholder="address" type="text" class="auth-container-input" maxlength="70">
+    </div>
+
+    <div class="auth-container-input">
+        <input id="cityField" placeholder="city" type="text" class="auth-container-input" maxlength="40">
+    </div>
+
+    <div class="auth-container-input">
+        <input id="stateField" placeholder="state" type="text" class="auth-container-input" maxlength="40">
+    </div>
+
+    <div class="auth-container-input">
+        <input id="countryField" placeholder="country" type="text" class="auth-container-input" maxlength="40">
+    </div>
+
+    <div class="auth-container-input">
+        <input id="postalCodeField" placeholder="postal code" type="text" class="auth-container-input" maxlength="10">
     </div>
 
     <div id="info" class="auth-container-info-text, invisible">Error message goes here like, email already taken??</div>
@@ -33,6 +76,7 @@
 </div>
 
 </body>
-<script type="text/javascript" src="js/singup.js"></script>
+<script type="text/javascript" src="js/entities/customer.js"></script>
+<script type="text/javascript" src="js/signup.js"></script>
 
 </html>

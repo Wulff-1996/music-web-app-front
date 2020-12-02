@@ -82,3 +82,10 @@ div.auth-container-info-text {
 div.invisible {
     display: none;
 }
+
+div.auth-container-section-header {
+    margin-top: 10px;
+    font-size: 12px;
+    color: white;
+    text-align: left;
+}
