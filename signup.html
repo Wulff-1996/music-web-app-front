@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/styles.css"/>
+    <script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+    <title>Signup</title>
+</head>
+<body>
+
+<div class="auth-container">
+
+    <div class="auth-container-header">
+        <h3>Music App</h3>
+    </div>
+    <div class="auth-container-subtitle"><h5>Customer Signup</h5></div>
+
+    <div class="auth-container-input">
+        <input id="emailField" placeholder="email" type="email" class="auth-container-input" required>
+    </div>
+
+    <div class="auth-container-input">
+        <input id="passwordField" placeholder="password" type="password" class="auth-container-input" required
+               minlength="1">
+    </div>
+
+    <div id="info" class="auth-container-info-text, invisible">Error message goes here like, email already taken??</div>
+
+    <div class="auth-container-input">
+        <button id="signupBtn" type="button" class="auth-container-button disabled" disabled>Signup</button>
+    </div>
+
+</div>
+
+</body>
+<script type="text/javascript" src="js/singup.js"></script>
+
+</html>
