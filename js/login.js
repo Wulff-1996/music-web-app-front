@@ -123,6 +123,12 @@ function loginAdmin(password) {
 
 function loginCustomer(email, password) {
 
+    api.loginCustomer(email, password, function (data) {
+        // success
+    }, function (data) {
+        // fails
+    })
+
     $.ajax({
         url: 'http://localhost/music-web-app-api/public/customer-login',
         type: 'POST',
