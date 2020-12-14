@@ -1,6 +1,9 @@
 'use strict';
 
-const BASE_URL = 'http://localhost/music-web-app-api/public/';
+if (session.hasSession()){
+    // redirect to index
+    window.location.href = 'index.html';
+}
 
 $(document).ready(function () {
 
@@ -72,7 +75,6 @@ $(document).ready(function () {
     })
 });
 
-
 function shouldEnableButton(isValidEmail, isValidPassword = null, isAdmin) {
     const loginBtn = $('#loginBtn');
 
@@ -97,57 +99,36 @@ function shouldEnableButton(isValidEmail, isValidPassword = null, isAdmin) {
 
 function loginAdmin(password) {
 
-    $.ajax({
-        url: 'http://localhost/music-web-app-api/public/admin-login',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({"password": password}),
-        statusCode: {
-            204: function () {
-                $('#info').addClass('invisible');
+    api.loginAdmin(password)
+        .done(function (data){
+            $('#info').addClass('invisible');
 
-                // logged in
-                document.cookie = 'isAdmin=true';
+            // logged in
+            document.cookie = 'isAdmin=true';
 
-                // redirect to index
-                window.location.href = 'index.html';
-            },
-            401: function (data) {
-                // login failed
-                $('#info').removeClass('invisible');
-                $('#info').addClass('auth-container-info-text');
-            }
-        }
-    });
+            // redirect to index
+            window.location.href = 'index.html';
+        })
+        .fail(function (reqest){
+            // login failed
+            $('#info').removeClass('invisible');
+            $('#info').addClass('auth-container-info-text');
+        });
 }
 
-function loginCustomer(email, password) {
+function loginCustomer(email, password){
+    api.loginCustomer(email, password)
+        .done(function (data){
+            $('#info').addClass('invisible');
+            // logged in
+            document.cookie = 'isAdmin=false';
 
-    api.loginCustomer(email, password, function (data) {
-        // success
-    }, function (data) {
-        // fails
-    })
-
-    $.ajax({
-        url: 'http://localhost/music-web-app-api/public/customer-login',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({'email': email, 'password': password}),
-        statusCode: {
-            204: function () {
-                $('#info').addClass('invisible');
-
-                // logged in
-                document.cookie = 'isAdmin=false';
-
-                // redirect to index
-                window.location.href = 'index.html';
-            },
-            401: function () {
-                $('#info').removeClass('invisible');
-                $('#info').addClass('auth-container-info-text');
-            }
-        }
-    });
+            // redirect to index
+            window.location.href = 'index.html';
+        })
+        .fail(function (request){
+            // login failed
+            $('#info').removeClass('invisible');
+            $('#info').addClass('auth-container-info-text');
+        });
 }

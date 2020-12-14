@@ -107,16 +107,13 @@ function shouldEnableButton() {
     }
 }
 
-function signupCustomer() {
-
-    // TODO make this endpoint
-    const url = ""
+function signupCustomer(customer) {
 
     $.ajax({
         url: 'http://localhost/music-web-app-api/public/customer-signup',
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify({'email': email, 'password': password}),
+        data: JSON.stringify({'email': customer.email, 'password': customer.password}),
         statusCode: {
             204: function (data) {
                 $('#info').addClass('invisible');

@@ -8,39 +8,42 @@
 </head>
 <body>
 
-<div class="auth-container">
+<main>
+    <div class="auth-container">
 
-    <div class="auth-container-header">
-        <h3>Music App</h3>
+        <div class="auth-container-header">
+            <h3>Music App</h3>
+        </div>
+        <div class="auth-container-subtitle"><h5>Login</h5></div>
+
+        <div class="auth-container-input">
+            <input id="emailField" placeholder="email" type="email" class="auth-container-input">
+        </div>
+
+        <div class="auth-container-input">
+            <input id="passwordField" placeholder="password" type="password" class="auth-container-input" required>
+        </div>
+
+        <div id="info" class="auth-container-info-text, invisible">Email/Password invalid.</div>
+
+        <div class="auth-container-switch">
+            <input id="isAdminToggle" type="checkbox">
+            <span class="checkmark"></span>
+            Admin
+        </div>
+
+        <div class="auth-container-input">
+            <button id="loginBtn" class="auth-container-button disabled">Login</button>
+        </div>
+
+        <div class="auth-container-input">
+            <button id="signupBtn" class="auth-container-button">Signup</button>
+        </div>
     </div>
-    <div class="auth-container-subtitle"><h5>Login</h5></div>
-
-    <div class="auth-container-input">
-        <input id="emailField" placeholder="email" type="email" class="auth-container-input">
-    </div>
-
-    <div class="auth-container-input">
-        <input id="passwordField" placeholder="password" type="password" class="auth-container-input" required>
-    </div>
-
-    <div id="info" class="auth-container-info-text, invisible">Email/Password invalid.</div>
-
-    <div class="auth-container-switch">
-        <input id="isAdminToggle" type="checkbox">
-        <span class="checkmark"></span>
-        Admin
-    </div>
-
-    <div class="auth-container-input">
-        <button id="loginBtn" class="auth-container-button disabled">Login</button>
-    </div>
-
-    <div class="auth-container-input">
-        <button id="signupBtn" class="auth-container-button">Signup</button>
-    </div>
-</div>
+</main>
 
 </body>
+<script type="text/javascript" src="js/session.js"></script>
 <script type="text/javascript" src="js/api.js"></script>
 <script type="text/javascript" src="js/login.js"></script>
 
