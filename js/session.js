@@ -5,6 +5,7 @@ const SESSION_IDENTIFIER = 'PHPSESSID';
 const session = {
     hasSession: function hasSession() {
         let hasSession = false;
+        // cookie format {key=value};{key=value}
         const cookies = document.cookie.split(';');
 
         cookies.forEach(function (item, index) {
@@ -29,6 +30,3 @@ const session = {
         return session;
     }
 }
-
-
-

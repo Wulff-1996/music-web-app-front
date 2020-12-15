@@ -79,6 +79,9 @@ const api = {
     loginAdmin(password) {
         return http.post('admin-login', {'password': password});
     },
+    signupCustomer(customer){
+        return http.post('customer-signup', customer);
+    },
     getAlbums(params = null) {
         return http.get('albums', params);
     },
