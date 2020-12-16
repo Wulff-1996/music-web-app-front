@@ -16,10 +16,9 @@ function createTrackViews(tracks) {
     let trackViews = [];
 
     tracks.forEach(function (track) {
-        let trackView = $('<div />', {
-            'id': track.id,
-            'class': 'listItem'
-        });
+        let trackView = $('<div />', {'class': 'listItem'});
+        trackView.data('id', track.id);
+        trackView.data('type', 'track');
 
         let header = $('<div />', {
             'class': 'itemHeader',
@@ -66,10 +65,9 @@ function createArtistViews(artists) {
     let artistViews = [];
 
     artists.forEach(function (artist) {
-        let artistView = $('<div />', {
-            'id': artist.id,
-            'class': 'listItem'
-        });
+        let artistView = $('<div />', {'class': 'listItem'});
+        artistView.data('id', artist.id);
+        artistView.data('type', 'artist');
 
         let header = $('<div />', {
             'class': 'itemHeader',
@@ -102,10 +100,9 @@ function createAlbumViews(albums) {
     let albumViews = [];
 
     albums.forEach(function (album) {
-        let albumView = $('<div />', {
-            'id': album.id,
-            'class': 'listItem'
-        });
+        let albumView = $('<div />', {'class': 'listItem'});
+        albumView.data('id', album.id);
+        albumView.data('type', 'album');
 
         let header = $('<div />', {
             'class': 'itemHeader',

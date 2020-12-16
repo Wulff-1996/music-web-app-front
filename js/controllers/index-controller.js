@@ -1,19 +1,10 @@
 'use strict';
 
-if (!session.hasSession()) {
-    // not logged in, redirect to login
-    window.location.href = 'login.html';
-}
-
-// load in header and footer
-$('#header-container').load('header.html #header');
-$('#footer-container').load('footer.html #footer');
-
 // buttons
 const searchBtn = $('#searchButton');
 const tracksOptionBtn = $('#searchTracks');
-const artistsOptionBtn = $('#searchArtist');
-const albumsOptionBtn = $('#searchAlbum');
+const artistsOptionBtn = $('#searchArtists');
+const albumsOptionBtn = $('#searchAlbums');
 const previousBtn = $('#previousPageField');
 const nextBtn = $('#nextPageField');
 const pageBtn = $('#pageField');
@@ -37,11 +28,18 @@ let isLibrarySearch = false;
 
 $(document).ready(function () {
 
-    console.log(typeof(session.isAdmin()))
-    console.log(session.isAdmin())
+    // check if has session
+    if (!session.hasSession()) {
+        // not logged in, redirect to login
+        window.location.href = 'login.html';
+    }
+
+    // load in header and footer
+    $('#header-container').load('header.html #header');
+    $('#footer-container').load('footer.html #footer');
 
     // remove views based on auth
-    if (session.isAdmin() == true){
+    if (session.isAdmin() == true) {
         // remove library option
         libraryView.hide();
     } else {
@@ -49,14 +47,23 @@ $(document).ready(function () {
         addContainerView.hide();
     }
 
+    setupViews();
+});
+
+function setupViews(){
     // listeners
+    // listitem on click
+    $(listView).on('click', 'div.listItem', function () {
+        handleListItemClicked($(this).data());
+    });
+
     // search options
-    libraryToggle.on('change', function (){
+    libraryToggle.on('change', function () {
         isLibrarySearch = $(this).is(':checked');
     });
 
-    addBtn.on('click', function (){
-       // TODO show add dialog here
+    addBtn.on('click', function () {
+        // TODO show add dialog here
     });
 
     tracksOptionBtn.on('click', function () {
@@ -97,13 +104,29 @@ $(document).ready(function () {
     nextBtn.on('click', function () {
         let isDisabled = $(this).attr('disabled');
         // null means it does not have disabled
-        if (isDisabled == null){
+        if (isDisabled == null) {
             page++;
             notifyPageChanged()
             handleSearch();
         }
     });
-});
+}
+
+function handleListItemClicked(data){
+    switch (data.type) {
+        case 'track':
+            window.location.href = 'track.html?id=' + data.id;
+            break;
+
+        case 'artist':
+            window.location.href = 'artist.html?id=' + data.id;
+            break;
+
+        case 'album':
+            window.location.href = 'album.html?id=' + data.id;
+            break;
+    }
+}
 
 
 ////////////////  business logic /////////////////
@@ -117,11 +140,11 @@ function handleSearch() {
             gettracks(search, page);
             break;
 
-        case 'searchArtist':
+        case 'searchArtists':
             getArtists(search, page);
             break;
 
-        case 'searchAlbum':
+        case 'searchAlbums':
             getAlbums(search, page);
             break;
     }
@@ -130,39 +153,38 @@ function handleSearch() {
 
 /////////////// UI   /////////////////////////
 function updateSearchOption(searchOption) {
-
     updateAddButtonText(searchOption.attr('id'));
 
-    if (!searchOption.hasClass('selected')) {
+    if (!searchOption.hasClass('option-item-selected')) {
         // add class
-        searchOption.addClass('selected');
+        searchOption.addClass('option-item-selected');
 
         // remove class from other options
-        if (searchOption.attr('id') != 'searchTracks') {
-            tracksOptionBtn.removeClass('selected');
+        if (searchOption.attr('id') != tracksOptionBtn.attr('id')) {
+            tracksOptionBtn.removeClass('option-item-selected');
         }
 
-        if (searchOption.attr('id') != 'searchArtist') {
-            artistsOptionBtn.removeClass('selected');
+        if (searchOption.attr('id') != artistsOptionBtn.attr('id')) {
+            artistsOptionBtn.removeClass('option-item-selected');
         }
 
-        if (searchOption.attr('id') != 'searchAlbum') {
-            albumsOptionBtn.removeClass('selected');
+        if (searchOption.attr('id') != albumsOptionBtn.attr('id')) {
+            albumsOptionBtn.removeClass('option-item-selected');
         }
     }
 }
 
-function updateAddButtonText(searchOption){
+function updateAddButtonText(searchOption) {
     switch (searchOption) {
         case 'searchTracks':
             addBtn.text('Add Track');
             break;
 
-        case 'searchArtist':
+        case 'searchArtists':
             addBtn.html('Add Artist');
             break;
 
-        case 'searchAlbum':
+        case 'searchAlbums':
             addBtn.html('Add Album');
             break;
     }
@@ -173,9 +195,9 @@ function updateAddButtonText(searchOption){
 function gettracks(search = null) {
     let params = {'page': page};
 
-    if (isLibrarySearch){
+    if (isLibrarySearch) {
         params['customer_id'] = session.customerId();
-    } else if (search != null){
+    } else if (search != null) {
         params['search'] = search;
     }
 
@@ -234,18 +256,18 @@ function updateList(views) {
     listView.append(views);
 }
 
-function showNoResults(isEmpty){
-    if (isEmpty){
+function showNoResults(isEmpty) {
+    if (isEmpty) {
         infoTextField.removeClass('gone');
     } else {
         infoTextField.addClass('gone');
     }
 }
 
-function showPagination(isEmpty){
+function showPagination(isEmpty) {
     const container = $('#paginationContainer');
-    if (isEmpty){
-        if (page > 0){
+    if (isEmpty) {
+        if (page > 0) {
             // user has changed by page
             // disable next page
             nextBtn.attr('disabled', 'disabled');

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <title>Music Web App</title>
+</head>
+<body>
+
+<div id="header-container"></div>
+
+<main class="main">
+    <section id="artistDetailsSection" class="margintop">
+
+        <div class="flex">
+            <img src="icons/icon-artist.svg" class="icon-big image-background padding-big">
+
+            <div class="left-margin-big width-fill">
+                <div class="flex">
+                    <div class="width-fill">
+                        <h1 id="artistNameField"></h1>
+                    </div>
+                    <div id="artistOptions" class="flex">
+                        <img id="artistEditBtn" src="icons/icon-edit.svg"
+                             class="icon-small marginleft padding-small img-button"/>
+                        <img id="artistDeleteBtn" src="icons/icon-delete.svg"
+                             class="icon-small marginleft padding-small img-button"/>
+                    </div>
+                </div>
+                <div class="flex margintop">
+                    <img src="icons/icon-album.svg" class="icon-medium vertial-center"/>
+                    <h3 id="albumTotalField" class="vertial-center marginleft"></h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="artistResultSection" class="margintop">
+
+        <div class="flex width-fill">
+            <div id="artistOptions" class="options-container">
+                <div id="searchAlbum" class="option-item pointer option-item-selected"><h5>Albums</h5></div>
+                <div id="searchTracks" class="option-item pointer"><h5>Tracks</h5></div>
+            </div>
+            <div class="width-fill">
+                <button id="addBtn" class="button right vertial-center">Add Track</button>
+            </div>
+        </div>
+
+        <ul id="aristResultList" class="margintop"></ul>
+
+        <div id="paginationContainer" class="gone">
+            <img id="previousPageField" src="icons/icon-arrow-left.svg" class="pagination pointer"/>
+            <h5 id="pageField" class="pointer">1</h5>
+            <img id="nextPageField" src="icons/icon-arrow-right.svg" class="pagination pointer"/>
+        </div>
+
+    </section>
+</main>
+
+<div id="footer-container"></div>
+
+</body>
+<script type="text/javascript" src="js/utl/controller-util.js"></script>
+<script type="text/javascript" src="js/session.js"></script>
+<script type="text/javascript" src="js/api.js"></script>
+<script type="text/javascript" src="js/adapters/adapter.js"></script>
+<script type="text/javascript" src="js/controllers/artist-constroller.js"></script>
+
+</html>

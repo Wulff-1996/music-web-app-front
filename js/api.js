@@ -85,6 +85,9 @@ const api = {
     getTracks(params = null){
         return http.get('tracks', params);
     },
+    getArtistById(id){
+        return http.get('artists/' + id);
+    },
     getArtists(params = null){
         return http.get('artists', params);
     },

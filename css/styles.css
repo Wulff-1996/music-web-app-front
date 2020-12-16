@@ -17,6 +17,7 @@
 body {
     font-family: 'Source Sans Pro', Arial, sans-serif;
     background: var(--primary-background);
+    color: var(--text);
 }
 
 /*  common      */
@@ -24,10 +25,92 @@ body {
     display: none;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 .margintop {
     margin-top: 10px;
 }
 
+.marginleft {
+    margin-left: 10px;
+}
+
+.padding-small {
+    padding: 10px;
+}
+
+.vertial-center {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.width-fill {
+    width: 100%;
+}
+
+.with-fit {
+    width: fit-content;
+}
+
+.right {
+    float: right;
+}
+
+.clearfix {
+    overflow: auto;
+}
+
+.flex {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-right{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
+.left-margin-big {
+    margin-left: 20px;
+}
+
+img.img-button:hover {
+    background-color: var(--item-background);
+}
+
+section {
+    background-color: var(--primary-background);
+}
+
+/*   components       */
+div.options-container {
+    display: flex;
+    flex-direction: row;
+    border-radius: 25px;
+    background-color: #262D3D;
+    color: #808692;
+    width: fit-content;
+    height: 26px;
+}
+
+div.option-item {
+    background-color: var(--item-background);
+    color: var(--text-muted);
+    border-radius: 25px;
+    padding: 5px 20px 5px 20px;
+}
+
+div.option-item:hover {
+    color: var(--text);
+}
+
+div.option-item-selected {
+    color: var(--accent);
+    background-color: var(--secondary-background);
+}
 
 /*  login/signup/customer info container */
 div.auth-container {
@@ -156,8 +239,7 @@ div.auth-container-section-header {
     color: white;
 }
 
-main.main {
-    background: white;
+main {
     width: 1000px;
     margin: auto;
     margin-bottom: 100px;
@@ -210,34 +292,6 @@ footer {
     border-radius: 25px;
     border-width: 0;
     width: 100%;
-}
-
-#optionsBar {
-    display: flex;
-    flex-direction: row;
-    margin-top: 40px;
-    border-radius: 25px;
-    background-color: #262D3D;
-    color: #808692;
-    width: fit-content;
-}
-
-div.optionBarChildren {
-    padding: 5px 20px 5px 20px;
-}
-
-div.optionBarChildren:hover {
-    color: #EAEBEE;
-}
-
-div.selected {
-    background-color: #1B202B;
-    color: #44BBBE;
-    border-radius: 25px;
-}
-
-.pointer {
-    cursor: pointer;
 }
 
 
@@ -300,8 +354,26 @@ img.icon-extra-small {
     height: 12px;
 }
 
+img.icon-medium {
+    width: 30px;
+    height: 30px;
+}
+
+img.icon-big {
+    width: 200px;
+    height: 200px;
+}
+
 img.icon-margin {
     margin-right: 10px;
+}
+
+img.image-background {
+    background-color: var(--item-background);
+}
+
+img.padding-big {
+    padding: 30px;
 }
 
 
@@ -321,10 +393,6 @@ div.pagination h5 {
     padding: 10px;
     width: 16px;
     height: 16px;
-}
-
-div h5:hover {
-    background: var(--item-background);
 }
 
 img.pagination {
@@ -422,6 +490,7 @@ button.button {
     color: #44BBBE;
     border-radius: 25px;
     outline: none;
+    height: fit-content;
     padding: 10px 40px 10px 40px;
 }
 
@@ -430,10 +499,7 @@ button.button:hover {
     padding: 9px 39px 9px 39px;
 }
 
-.right {
-    float: right;
-}
-
-.clearfix {
-    overflow: auto;
+/* artist page    */
+#artistDetailsSection {
+    background-color: var(--primary-background);
 }
