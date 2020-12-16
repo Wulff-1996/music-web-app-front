@@ -11,7 +11,6 @@ const session = {
         cookies.forEach(function (item, index) {
             let cookie = item.trim().split('=');
             if (cookie[0] == SESSION_IDENTIFIER) {
-                console.log('yes has session boblblbla');
                 hasSession = true;
             }
         })
@@ -28,5 +27,44 @@ const session = {
             }
         })
         return session;
+    },
+    isAdmin: function (){
+        let cookie = getCookie('isAdmin');
+
+        if (cookie != null){
+            // cookie value is a string
+            if (cookie[1] === 'true'){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    },
+    customerId: function () {
+        let cookie = getCookie('customer_id');
+
+        if (cookie != null){
+            return cookie[1];
+        } else {
+            return null;
+        }
     }
+
+}
+
+
+function getCookie(name){
+    let cookie = null;
+
+    const cookies = document.cookie.split(';');
+    cookies.forEach(function (item, index) {
+
+        let data = item.trim().split('=');
+        if (data[0] == name){
+            cookie = data;
+        }
+    })
+    return cookie;
 }

@@ -65,9 +65,7 @@ $(document).ready(function () {
                 valueOrNull(stateField.val()),
                 valueOrNull(countryField.val()),
                 valueOrNull(postalcodeField.val())
-            )
-
-            console.log(customer.toJson());
+            );
 
             // make api call
             signupCustomer(customer.toJson());
@@ -159,7 +157,7 @@ function signupCustomer(customer) {
             window.location.href = 'login.html';
         })
         .fail(function (request) {
-            updateInfoText(false, request.responseText)
+            updateInfoText(false, request.responseText);
         });
 }
 
@@ -208,40 +206,8 @@ function updateInputField(inputFieldId, isValid) {
 
 function valueOrNull(value) {
     if (value == '') {
-        return null
+        return null;
     } else {
         return value;
     }
-}
-
-
-function hej() {
-    $.ajax({
-        url: 'http://localhost/music-web-app-api/public/customer-signup',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({'email': customer.email, 'password': customer.password}),
-        statusCode: {
-            204: function (data) {
-                $('#info').addClass('invisible');
-
-                // logged in
-                document.cookie = 'isAdmin=false';
-
-                // save user in session
-                let user = JSON.stringify(data);
-                sessionStorage.setItem('user', user);
-
-                // redirect to index
-                window.location.href = 'index.html';
-            },
-            401: function (data) {
-                $('#info').removeClass('invisible');
-                $('#info').addClass('auth-container-info-text');
-
-
-                $('#info').text(data)
-            }
-        }
-    });
 }

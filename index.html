@@ -3,22 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" href="css/styles.css"/>
     <title>Music Web App</title>
 </head>
 <body>
 
-<nav>
-    <ul>
-        <li>Home</li>
-        <li>Library</li>
-        <li>Cart</li>
-        <li>Profile</li>
-    </ul>
-</nav>
+<div id="header-container"></div>
+
+<main class="main">
+
+    <section id="searchSection">
+
+        <div id="optionsBar">
+            <div id="searchTracks" class="optionBarChildren selected pointer"><h5>Tracks</h5></div>
+            <div id="searchArtist" class="optionBarChildren pointer"><h5>Artists</h5></div>
+            <div id="searchAlbum" class="optionBarChildren pointer"><h5>Albums</h5></div>
+        </div>
+
+        <div id="searchBar">
+            <input id="searchText" type="text" name="inputBox" placeholder="Search..."/>
+            <button id="searchButton">Search</button>
+        </div>
+
+        <div id="libraryBar">
+            <h5>Tracks Library</h5>
+            <label class="switch">
+                <input id="librarySearchField" type="checkbox">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </section>
+
+    <section id="resultSection">
+        <p id="infoTextFieldIndex" class="gone">No Search result.</p>
+
+        <div id="addContainer" class="clearfix">
+            <button id="addBtn" class="button right">Add Track</button>
+        </div>
+        <ul id="listView" class="margintop"></ul>
+
+        <div id="paginationContainer" class="gone">
+            <img id="previousPageField" src="icons/icon-arrow-left.svg" class="pagination pointer"/>
+            <h5 id="pageField" class="pointer">1</h5>
+            <img id="nextPageField" src="icons/icon-arrow-right.svg" class="pagination pointer"/>
+        </div>
+    </section>
+
+</main>
+
+
+<div id="footer-container"></div>
 
 
 </body>
 <script type="text/javascript" src="js/session.js"></script>
 <script type="text/javascript" src="js/api.js"></script>
+<script type="text/javascript" src="js/adapters/adapter.js"></script>
 <script type="text/javascript" src="js/controllers/index-controller.js"></script>
 </html>

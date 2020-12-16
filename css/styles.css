@@ -1,3 +1,14 @@
+:root {
+    --primary-background: #10141B;
+    --secondary-background: #1B202B;
+    --item-background: #252d3d;
+    --accent: #48CCCE;
+    --text: #F0F1F3;
+    --text-muted: #767B87;
+    --success: #55F27B;
+    --danger: #DE2F65;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,10 +16,21 @@
 
 body {
     font-family: 'Source Sans Pro', Arial, sans-serif;
-    background: #10141b;
+    background: var(--primary-background);
 }
 
-div.auth-container{
+/*  common      */
+.gone {
+    display: none;
+}
+
+.margintop {
+    margin-top: 10px;
+}
+
+
+/*  login/signup/customer info container */
+div.auth-container {
     width: 380px;
     box-sizing: border-box;
     text-align: center;
@@ -18,7 +40,7 @@ div.auth-container{
     margin-bottom: 50px;
 }
 
-div.auth-container-header{
+div.auth-container-header {
     margin-top: 100px;
     font-size: 24px;
     color: white;
@@ -49,7 +71,7 @@ input.auth-container-input {
 }
 
 input.invalid {
-   border-color: red;
+    border-color: red;
 }
 
 button.auth-container-button {
@@ -91,4 +113,327 @@ div.auth-container-section-header {
     font-size: 12px;
     color: white;
     text-align: left;
+}
+
+.navigationbar {
+    background-color: var(--secondary-background);
+    overflow: hidden;
+    height: 50px;
+}
+
+.navigationbar div {
+    width: 1000px;
+    margin: auto;
+}
+
+.navigationbar div.left {
+    flex-grow: 1;
+}
+
+.navigationbar div.right {
+    width: fit-content;
+    float: right;
+}
+
+.navigationbar a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.navigationbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Add a color to the active/current link */
+.navigationbar a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+main.main {
+    background: white;
+    width: 1000px;
+    margin: auto;
+    margin-bottom: 100px;
+}
+
+footer {
+    background-color: var(--secondary-background);
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    padding: 5px 0 5px 0;
+    color: floralwhite;
+    text-align: center;
+}
+
+#searchSection {
+    background-color: #10141B;
+    color: #EAEBEE;
+    padding: 20px 0 20px 0;
+}
+
+#searchBar {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    border-radius: 25px;
+    background-color: #262D3D;
+    color: #EAEBEE;
+}
+
+#searchButton {
+    border: none;
+    background-color: #1B202B;
+    color: #44BBBE;
+    border-radius: 25px;
+    outline: none;
+    padding: 10px 40px 10px 40px;
+}
+
+#searchButton:hover {
+    border: 1px solid var(--accent);
+    padding: 9px 39px 9px 39px;
+}
+
+#searchText {
+    background-color: #262D3D;
+    color: #EAEBEE;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 25px;
+    border-width: 0;
+    width: 100%;
+}
+
+#optionsBar {
+    display: flex;
+    flex-direction: row;
+    margin-top: 40px;
+    border-radius: 25px;
+    background-color: #262D3D;
+    color: #808692;
+    width: fit-content;
+}
+
+div.optionBarChildren {
+    padding: 5px 20px 5px 20px;
+}
+
+div.optionBarChildren:hover {
+    color: #EAEBEE;
+}
+
+div.selected {
+    background-color: #1B202B;
+    color: #44BBBE;
+    border-radius: 25px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+
+/*  ////  list item  ///////////////  */
+#resultSection {
+    padding-top: 20px;
+    padding-bottom: 20x;
+    background-color: var(--primary-background);
+}
+
+div.listItem {
+    background: var(--item-background);
+    color: var(--text);
+    padding: 10px 20px 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+div.listItem:hover {
+    border: 1px solid var(--accent);
+    padding: 9px 19px 9px 19px;
+}
+
+div.itemHeader {
+    display: flex;
+    flex-direction: row;
+}
+
+div.itemHeader h5 {
+    margin-left: 10px;
+}
+
+div.vertialDivider {
+    border-left: 3px solid var(--text-muted);
+    height: auto;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+div.itemSubheader {
+    margin-left: 30px;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: row;
+}
+
+div.itemSubheader p {
+    width: fit-content;
+}
+
+img.icon-small {
+    width: 20px;
+    height: 20px;
+}
+
+img.icon-extra-small {
+    width: 12px;
+    height: 12px;
+}
+
+img.icon-margin {
+    margin-right: 10px;
+}
+
+
+/* //////  pagination  /////////////*/
+div.pagination {
+    display: flex;
+    flex-direction: row;
+    color: var(--text);
+    width: fit-content;
+    margin: auto;
+}
+
+div.pagination h5 {
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 10px;
+    width: 16px;
+    height: 16px;
+}
+
+div h5:hover {
+    background: var(--item-background);
+}
+
+img.pagination {
+    width: 16px;
+    height: 16px;
+    padding: 10px;
+}
+
+img.pagination:hover {
+    background: var(--item-background);
+}
+
+/* ///////// info text index page //////////*/
+#infoTextFieldIndex {
+    width: fit-content;
+    margin: auto;
+    color: var(--text);
+}
+
+/*   Library bar */
+#libraryBar {
+    margin-top: 10px;
+    margin-left: 40px;
+    display: flex;
+    flex-direction: row;
+}
+
+#libraryBar h5 {
+    height: 20px;
+    width: fit-content;
+}
+
+/*   switch  */
+.switch {
+    position: relative;
+    display: inline-block;
+    margin-left: 10px;
+    width: 40px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #808692;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #44BBBE;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
+}
+
+.slider.round {
+    border-radius: 20px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/*   button     */
+
+button.button {
+    border: none;
+    background-color: #1B202B;
+    color: #44BBBE;
+    border-radius: 25px;
+    outline: none;
+    padding: 10px 40px 10px 40px;
+}
+
+button.button:hover {
+    border: 1px solid var(--accent);
+    padding: 9px 39px 9px 39px;
+}
+
+.right {
+    float: right;
+}
+
+.clearfix {
+    overflow: auto;
 }

@@ -122,6 +122,7 @@ function loginCustomer(email, password){
             $('#info').addClass('invisible');
             // logged in
             document.cookie = 'isAdmin=false';
+            document.cookie = 'customer_id=' + data.customer_id;
 
             // redirect to index
             window.location.href = 'index.html';
