@@ -43,7 +43,7 @@ $(document).ready(function () {
     setupViews();
 });
 
-function setupViews(){
+function setupViews() {
     // listeners
     // listitem on click
     $(listView).on('click', 'div.listItem', function () {
@@ -108,7 +108,6 @@ function setupViews(){
 
 ////////////////  business logic /////////////////
 function handleSearch() {
-
     let search = valueOrNull(searchField.val());
 
     switch (getSearchOptionId()) {
@@ -264,7 +263,7 @@ function showPagination(isEmpty) {
 
 /////////////// helper functions ///////////////
 function getSearchOptionId() {
-    return $('#optionsBar .selected').attr('id');
+    return $('#indexOptions .option-item-selected').attr('id');
 }
 
 function valueOrNull(value) {
