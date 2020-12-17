@@ -28,18 +28,11 @@ let isLibrarySearch = false;
 
 $(document).ready(function () {
 
-    // check if has session
-    if (!session.hasSession()) {
-        // not logged in, redirect to login
-        window.location.href = 'login.html';
-    }
-
-    // load in header and footer
-    $('#header-container').load('header.html #header');
-    $('#footer-container').load('footer.html #footer');
+    controllerUtil.checkForSession();
+    controllerUtil.loadHeaderFooter();
 
     // remove views based on auth
-    if (session.isAdmin() == true) {
+    if (session.isAdmin()) {
         // remove library option
         libraryView.hide();
     } else {
@@ -54,7 +47,7 @@ function setupViews(){
     // listeners
     // listitem on click
     $(listView).on('click', 'div.listItem', function () {
-        handleListItemClicked($(this).data());
+        controllerUtil.handleListItemClicked($(this).data());
     });
 
     // search options
@@ -110,22 +103,6 @@ function setupViews(){
             handleSearch();
         }
     });
-}
-
-function handleListItemClicked(data){
-    switch (data.type) {
-        case 'track':
-            window.location.href = 'track.html?id=' + data.id;
-            break;
-
-        case 'artist':
-            window.location.href = 'artist.html?id=' + data.id;
-            break;
-
-        case 'album':
-            window.location.href = 'album.html?id=' + data.id;
-            break;
-    }
 }
 
 

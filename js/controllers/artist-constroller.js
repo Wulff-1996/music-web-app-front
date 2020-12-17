@@ -27,24 +27,9 @@ const artistId = controllerUtil.getParam('id');
 
 $(document).ready(function () {
 
-    // check if has session
-    if (!session.hasSession()) {
-        // not logged in, redirect to login
-        window.location.href = 'login.html';
-    }
-
-    // check if artist id in url query params
-    if (artistId == null) {
-        alert('need to pass id in url. You will be redirected to home page.');
-
-        // redirect user to home
-        window.location.href = 'index.html';
-    }
-
-    // load in header and footer
-    // load in header and footer
-    $('#header-container').load('header.html #header');
-    $('#footer-container').load('footer.html #footer');
+    controllerUtil.checkForSession();
+    controllerUtil.validateQueryParamId(artistId);
+    controllerUtil.loadHeaderFooter();
 
     // remove views based on auth
     if (!isAdmin) {
@@ -55,17 +40,15 @@ $(document).ready(function () {
     // setup views
     setupViews();
 
-    // fetch artist details
-    getArtistDetails();
-
-    // get albums for artist
-    getAlbumsByArtistId();
+    // fetch data
+    fetchArtist();
+    fetchAlbums();
 });
 
 function setupViews() {
     // listeners
     $('#aristResultList').on('click', 'div.listItem', function () {
-        handleListItemClicked($(this).data());
+        controllerUtil.handleListItemClicked($(this).data());
     });
 
     editBtn.on('click', function () {
@@ -83,14 +66,14 @@ function setupViews() {
     searchAlbumsBtn.on('click', function () {
         page = 0;
         notifyPageChanged();
-        getAlbumsByArtistId();
+        fetchAlbums();
         updateSearchOption(searchAlbumsBtn);
     });
 
     searchTracksBtn.on('click', function () {
         page = 0;
         notifyPageChanged();
-        getTracksByArtistId();
+        fetchTracks();
         updateSearchOption(searchTracksBtn);
     });
 
@@ -117,23 +100,11 @@ function setupViews() {
 function handlePageSearch() {
     switch (getSearchOptionId()) {
         case searchAlbumsBtn.attr('id'):
-            getAlbumsByArtistId();
+            fetchAlbums();
             break;
 
         case searchTracksBtn.attr('id'):
-            getTracksByArtistId();
-            break;
-    }
-}
-
-function handleListItemClicked(data){
-    switch (data.type) {
-        case 'album':
-            window.location.href = 'album.html?id=' + data.id;
-            break;
-
-        case 'track':
-            window.location.href = 'track.html?id=' + data.id;
+            fetchTracks();
             break;
     }
 }
@@ -147,7 +118,7 @@ function notifyPageChanged() {
 }
 
 // requests
-function getArtistDetails() {
+function fetchArtist() {
     api.getArtistById(artistId)
         .done(function (data) {
             artistNameField.text(data.name);
@@ -158,7 +129,7 @@ function getArtistDetails() {
         });
 }
 
-function getAlbumsByArtistId() {
+function fetchAlbums() {
     let params = {
         'page': page,
         'artist_id': artistId
@@ -174,7 +145,7 @@ function getAlbumsByArtistId() {
         });
 }
 
-function getTracksByArtistId() {
+function fetchTracks() {
     let params = {
         'page': page,
         'artist_id': artistId

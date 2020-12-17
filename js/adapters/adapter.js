@@ -9,6 +9,9 @@ const adapter = {
     },
     getAlbumViews(albums) {
         return createAlbumViews(albums);
+    },
+    getAlertErrorModal(title, message, mode){
+        return createAlertErrorModal(title, message, mode);
     }
 };
 
@@ -16,7 +19,7 @@ function createTrackViews(tracks) {
     let trackViews = [];
 
     tracks.forEach(function (track) {
-        let trackView = $('<div />', {'class': 'listItem'});
+        let trackView = $('<div />', {'class': 'listItem pointer'});
         trackView.data('id', track.id);
         trackView.data('type', 'track');
 
@@ -40,14 +43,14 @@ function createTrackViews(tracks) {
             'class': 'icon-extra-small icon-margin'
         }).appendTo(subheader);
         $('<p>' + track.artist['name'] + '</p>').appendTo(subheader);
-        $('<div/>', {'class': 'vertialDivider'}).appendTo(subheader);
+        $('<div/>', {'class': 'verticalDivider marginleft marginright'}).appendTo(subheader);
 
         $('<img/>', {
             'src': 'icons/icon-album-muted.svg',
             'class': 'icon-extra-small icon-margin'
         }).appendTo(subheader);
         $('<p>' + track.album['title'] + '</p>').appendTo(subheader);
-        $('<div/>', {'class': 'vertialDivider'}).appendTo(subheader);
+        $('<div/>', {'class': 'verticalDivider marginleft marginright'}).appendTo(subheader);
 
         $('<img/>', {
             'src': 'icons/icon-price-muted.svg',
@@ -65,7 +68,7 @@ function createArtistViews(artists) {
     let artistViews = [];
 
     artists.forEach(function (artist) {
-        let artistView = $('<div />', {'class': 'listItem'});
+        let artistView = $('<div />', {'class': 'listItem pointer'});
         artistView.data('id', artist.id);
         artistView.data('type', 'artist');
 
@@ -100,7 +103,7 @@ function createAlbumViews(albums) {
     let albumViews = [];
 
     albums.forEach(function (album) {
-        let albumView = $('<div />', {'class': 'listItem'});
+        let albumView = $('<div />', {'class': 'listItem pointer'});
         albumView.data('id', album.id);
         albumView.data('type', 'album');
 
@@ -124,7 +127,7 @@ function createAlbumViews(albums) {
             'class': 'icon-extra-small icon-margin'
         }).appendTo(subheader);
         $('<p>' + album.artist.name + '</p>').appendTo(subheader);
-        $('<div/>', {'class': 'vertialDivider'}).appendTo(subheader);
+        $('<div/>', {'class': 'verticalDivider marginleft marginright'}).appendTo(subheader);
 
         $('<img/>', {
             'src': 'icons/icon-track-muted.svg',
@@ -136,4 +139,39 @@ function createAlbumViews(albums) {
     });
 
     return albumViews;
+}
+
+const ALERT_MODE_SUCCESS = 'ALERT_MODE_SUCCESS';
+const ALERT_MODE_ERROR_NOT_FOUND = 'ALERT_MODE_ERROR_NOT_FOUND';
+const ALERT_MODE_ERROR_UNAUTHORIZED = 'ALERT_MODE_ERROR_UNAUTHORIZED';
+
+function createAlertErrorModal(title, message, mode){
+    const alertbackground = $('<div/>', {'class': 'modal-background'});
+    const alertModal = $('<div/>', {'class':'alert-modal center'}).appendTo(alertbackground);
+
+    // header container
+    const header = $('<div/>', {'class':'alert-header'}).appendTo(alertModal);
+
+    // title
+    const titleView = $('<h3/>', {'class':'text-center'}).appendTo(header);
+    titleView.text(title);
+
+    // message
+    const messageView = $('<p/>', {'class':'alert-message text-center margintop'}).appendTo(header);
+    messageView.text(message);
+
+
+    // buttons container
+    const buttonContainer = $('<div/>', {'class': 'margintop-big flex-center'}).appendTo(alertModal);
+
+    // ok button
+    const okButton = $('<button/>', {
+        'id': 'alertModalOkBtn',
+        'class': 'alert-button with-fit'
+    }).appendTo(buttonContainer);
+
+    okButton.text('OK');
+    okButton.data('mode', mode);
+
+    return alertbackground;
 }

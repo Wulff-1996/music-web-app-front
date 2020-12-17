@@ -82,6 +82,9 @@ const api = {
     signupCustomer(customer){
         return http.post('customer-signup', customer);
     },
+    getTrackById(id){
+        return http.get('tracks/' + id);
+    },
     getTracks(params = null){
         return http.get('tracks', params);
     },

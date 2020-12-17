@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/styles.css"/>
+    <script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+    <title>Title</title>
+</head>
+<body>
+<main class="main">
+    <section id="trackDetailsSection" class="margintop">
+
+        <div class="flex">
+            <div class="with-fit">
+                <img src="icons/icon-track.svg" class="icon-big image-background padding-big fit">
+                <button id="toBasketBtn" class="button margintop-big width-fill">Place in Basket</button>
+            </div>
+
+            <div class="left-margin-big width-fill">
+                <div class="flex">
+                    <div class="flex width-fill">
+                        <h1 id="trackTitleField" class="vertial-center"></h1>
+                        <div class="verticalDivider marginleft marginright margintop marginbottom"></div>
+                        <img src="icons/icon-price.svg" class="icon-medium vertial-center"/>
+                        <h1 id="priceField" class="vertial-center marginleft"></h1>
+                    </div>
+                    <div id="trackOptions" class="flex">
+                        <img id="trackEditBtn" src="icons/icon-edit.svg"
+                             class="icon-small marginleft padding-small img-button"/>
+                        <img id="trackDeleteBtn" src="icons/icon-delete.svg"
+                             class="icon-small marginleft padding-small img-button"/>
+                    </div>
+                </div>
+                <div class="flex margintop">
+                    <img src="icons/icon-artist.svg" class="icon-medium vertial-center"/>
+                    <h3 id="artistNameField" class="vertial-center marginleft pointer link fontslim"></h3>
+                </div>
+                <div class="flex margintop">
+                    <img src="icons/icon-album.svg" class="icon-medium vertial-center"/>
+                    <h3 id="albumNameField" class="vertial-center marginleft pointer link fontslim"></h3>
+                </div>
+                <div class="flex margintop">
+                    <img src="icons/icon-composer.svg" class="icon-medium vertial-center"/>
+                    <h3 id="composerNameField" class="vertial-center marginleft fontslim"></h3>
+                </div>
+
+                <div class="margintop-big">
+
+                    <div class="flex-start-even">
+                        <div class="flex flex-child-even-space">
+                            <div class="verticalDivider"></div>
+                            <div class="marginleft">
+                                <label class="item-subheader capital">Genre</label>
+                                <h3 id="genreField" class="fontslim"></h3>
+                            </div>
+                        </div>
+                        <div class="flex flex-child-even-space">
+                            <div class="verticalDivider"></div>
+                            <div class="marginleft">
+                                <label class="item-subheader capital">Milliseconds</label>
+                                <h3 id="millisecondsField" class="fontslim"></h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-start-even margintop">
+                        <div class="flex flex-child-even-space">
+                            <div class="verticalDivider"></div>
+                            <div class="marginleft">
+                                <label class="item-subheader capital">Media</label>
+                                <h3 id="mediaField" class="fontslim"></h3>
+                            </div>
+                        </div>
+                        <div class="flex flex-child-even-space">
+                            <div class="verticalDivider"></div>
+                            <div class="marginleft">
+                                <label class="item-subheader capital">Bytes</label>
+                                <h3 id="bytesField" class="fontslim"></h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+<div class="modal-background">
+
+    <div class="alert-modal">
+
+        <div class="alert-modal-header">
+            <h3 class="text-center">Error</h3>
+            <p class="alert-message text-center margintop">This resource was not found</p>
+        </div>
+
+        <div class="margintop-big flex-center">
+            <button id="alertModalOkBtn" class="alert-button with-fit">OK</button>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
