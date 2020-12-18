@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <title>Cart</title>
+</head>
+<body>
+
+<div id="header-container"></div>
+
+<main class="main">
+    <section id="tracksSection" class="margintop-big">
+
+        <h3>Tracks</h3>
+        <ul id="tracksList" class="margintop"></ul>
+        <div class="margintop flex-right">
+            <h3 class="fontslim">Total</h3>
+            <h3 id="cartTotalField" class="marginleft">444.45</h3>
+            <img src="icons/icon-price.svg" class="icon-extra-small vertial-center marginleft"/>
+        </div>
+
+
+    </section>
+
+    <section id="customerInfoSection" class="margintop-big">
+
+        <h3>Billing</h3>
+
+        <div class="margintop flex">
+
+            <div class="flex-child-even-space margin-normal">
+
+                <div class="width-fill">
+                    <label class="input-header marginleft">Address</label>
+                    <input id="addressField" placeholder="address" type="text" class="input margintop" maxlength="70">
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">City</label>
+                    <input id="cityField" placeholder="city" type="text" class="input margintop" maxlength="40">
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">Postal Code</label>
+                    <input id="postalCodeField" placeholder="postal code" type="text" class="input margintop" maxlength="10">
+                </div>
+
+            </div>
+
+            <div class="flex-child-even-space margin-normal">
+
+                <div class="width-fill">
+                    <label class="input-header marginleft">State</label>
+                    <input id="stateField" placeholder="state" type="text" class="input margintop" maxlength="40">
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">Country</label>
+                    <input id="countryField" placeholder="country" type="text" class="input margintop" maxlength="40">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="flex-center">
+            <button id="placeOrderBtn" class="button margintop-big button-large">Place in Basket</button>
+        </div>
+
+
+    </section>
+</main>
+
+<div id="footer-container"></div>
+
+</body>
+<script type="text/javascript" src="js/utl/controller-util.js"></script>
+<script type="text/javascript" src="js/session.js"></script>
+<script type="text/javascript" src="js/api.js"></script>
+<script type="text/javascript" src="js/adapters/adapter.js"></script>
+<script type="text/javascript" src="js/storage.js"></script>
+<script type="text/javascript" src="js/controllers/cart-controller.js"></script>
+
+</html>

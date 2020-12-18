@@ -25,6 +25,7 @@ const addContainerView = $('#addContainer');
 // fields
 let page = 0;
 let isLibrarySearch = false;
+let isAdmin = session.isAdmin();
 
 $(document).ready(function () {
 
@@ -32,7 +33,7 @@ $(document).ready(function () {
     controllerUtil.loadHeaderFooter();
 
     // remove views based on auth
-    if (session.isAdmin()) {
+    if (isAdmin) {
         // remove library option
         libraryView.hide();
     } else {
@@ -41,13 +42,65 @@ $(document).ready(function () {
     }
 
     setupViews();
+
+    // fetch data
+    fetchTracks();
 });
 
 function setupViews() {
     // listeners
     // listitem on click
-    $(listView).on('click', 'div.listItem', function () {
-        controllerUtil.handleListItemClicked($(this).data());
+    $(listView).on('click', 'div.listItem', function (event) {
+        let target =$(event.target);
+
+        // check if list item or list item button was clicked
+        if (!target.is('img.img-list-item-button')){
+            // list item clicked
+            controllerUtil.handleListItemClicked($(this).data());
+        } else {
+            // list item button clicked
+            let data = $(target).data();
+            let id = data.id;
+            let type = data.type;
+            let track = data.track;
+
+            if (isAdmin){
+                // TODO handle delete track
+            } else {
+                // check if item should be added or removed
+                if (storage.cart.exists(id)){
+                    // remove from cart
+                    storage.cart.removeTrack(id);
+                    // update imge
+                    target.attr('src', 'icons/icon-cart.svg');
+                } else {
+                    // add to cart
+                    storage.cart.addTrack(track);
+                    // update list item
+                    target.attr('src', 'icons/icon-cart-success.svg');
+                }
+            }
+        }
+    });
+
+    // fade in list item delete button
+    $(listView).on('mouseenter', 'div.listItem', function (){
+        let listButton = $(this).find('img.img-list-item-button');
+
+        // check if track is in storage
+        if (storage.cart.exists(listButton.data('id'))){
+            // update img to green
+            listButton.attr('src', 'icons/icon-cart-success.svg');
+        } else {
+            listButton.attr('src', 'icons/icon-cart.svg');
+        }
+        listButton.removeClass('gone');
+    });
+
+    // fade out list item delete button
+    $(listView).on('mouseleave', 'div.listItem', function (){
+        let listButton = $(this).find('img.img-list-item-button');
+        listButton.addClass('gone');
     });
 
     // search options
@@ -62,19 +115,19 @@ function setupViews() {
     tracksOptionBtn.on('click', function () {
         page = 0;
         notifyPageChanged();
-        gettracks();
+        fetchTracks();
         updateSearchOption(tracksOptionBtn);
     });
     artistsOptionBtn.on('click', function () {
         page = 0;
         notifyPageChanged();
-        getArtists();
+        fetchArtists();
         updateSearchOption(artistsOptionBtn);
     });
     albumsOptionBtn.on('click', function () {
         page = 0;
         notifyPageChanged();
-        getAlbums();
+        fetchAlbums();
         updateSearchOption(albumsOptionBtn);
     });
 
@@ -113,18 +166,17 @@ function handleSearch() {
     switch (getSearchOptionId()) {
 
         case 'searchTracks':
-            gettracks(search, page);
+            fetchTracks(search, page);
             break;
 
         case 'searchArtists':
-            getArtists(search, page);
+            fetchArtists(search, page);
             break;
 
         case 'searchAlbums':
-            getAlbums(search, page);
+            fetchAlbums(search, page);
             break;
     }
-
 }
 
 /////////////// UI   /////////////////////////
@@ -168,11 +220,18 @@ function updateAddButtonText(searchOption) {
 
 
 ////////////////  requests //////////////////////
-function gettracks(search = null) {
+function fetchTracks(search = null) {
     let params = {'page': page};
+    let mode = null;
+
+    if (isAdmin){
+        mode = LIST_ITEM_MODE_DELETE;
+    } else {
+        mode = LIST_ITEM_MODE_CART_ADD;
+    }
 
     if (isLibrarySearch) {
-        params['customer_id'] = session.customerId();
+        params['customer_id'] = storage.user.get().id;
     } else if (search != null) {
         params['search'] = search;
     }
@@ -180,39 +239,49 @@ function gettracks(search = null) {
     api.getTracks(params)
         .done(function (data) {
             let tracks = data.tracks;
-            updateList(adapter.getTrackViews(tracks));
+            updateList(adapter.getTrackViews(tracks, mode));
         })
         .fail(function (request) {
 
         });
 }
 
-function getArtists(search = null) {
+function fetchArtists(search = null) {
     let params = {'page': page};
     if (search != null) {
         params['name'] = search;
+    }
+    let mode = null;
+
+    if (isAdmin){
+        mode = LIST_ITEM_MODE_DELETE;
     }
 
     api.getArtists(params)
         .done(function (data) {
             let artists = data.artists;
-            updateList(adapter.getArtistViews(artists));
+            updateList(adapter.getArtistViews(artists, mode));
         })
         .fail(function (request) {
 
         });
 }
 
-function getAlbums(search = null) {
+function fetchAlbums(search = null) {
     let params = {'page': page};
     if (search != null) {
         params['title'] = search;
+    }
+    let mode = null;
+
+    if (isAdmin){
+        mode = LIST_ITEM_MODE_DELETE;
     }
 
     api.getAlbums(params)
         .done(function (data) {
             let albums = data.albums;
-            updateList(adapter.getAlbumViews(albums));
+            updateList(adapter.getAlbumViews(albums, mode));
         })
         .fail(function (request) {
 

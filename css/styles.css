@@ -21,6 +21,10 @@ body {
     color: var(--text);
 }
 
+*:focus {
+    outline: none;
+}
+
 /*  common      */
 .gone {
     display: none;
@@ -32,6 +36,14 @@ body {
 
 .link:hover {
     color: var(--accent);
+}
+
+.margin {
+    margin: auto;
+}
+
+.margin-normal {
+    margin: 10px;
 }
 
 .margintop {
@@ -56,6 +68,10 @@ body {
 
 .padding-small {
     padding: 10px;
+}
+
+.padding-extra-small {
+    padding: 6px;
 }
 
 .vertial-center {
@@ -112,6 +128,12 @@ body {
     flex-direction: row;
 }
 
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .flex-start-even {
     display: flex;
     flex-direction: row;
@@ -122,11 +144,15 @@ body {
 .flex-right{
     display: flex;
     flex-direction: row;
-    justify-content: right;
+    justify-content: flex-end;
 }
 
 .flex-child-even-space {
     width: 50%;
+}
+
+.flex-child-fill {
+    flex-grow: 100;
 }
 
 .flex-center {
@@ -146,6 +172,17 @@ body {
 
 img.img-button:hover {
     background-color: var(--item-background);
+}
+
+img.img-list-item-button {
+    background-color: var(--secondary-background);
+    border-radius: 20px;
+    padding: 6px 30px;
+    border: 1px solid var(--text-muted);
+}
+
+img.img-list-item-button:hover {
+    border: 1px solid var(--accent);
 }
 
 section {
@@ -200,10 +237,10 @@ button.alert-button:hover {
 div.options-container {
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
     border-radius: 25px;
     background-color: #262D3D;
     color: #808692;
-    width: fit-content;
     height: 26px;
 }
 
@@ -227,6 +264,25 @@ div.option-item-selected {
 label.item-subheader {
     font-size: 12px;
     color: var(--text-muted);
+}
+
+/*      input      */
+input.input {
+    background-color: var(--item-background);
+    color: var(--text);
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px 15px;
+    box-shadow: none;
+    border-radius: 9px;
+    border: 1px solid transparent;
+    font-size: 13px;
+}
+
+label.input-header {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
 }
 
 /*  login/signup/customer info container */
@@ -337,7 +393,7 @@ div.auth-container-section-header {
 
 .navigationbar a {
     float: left;
-    color: #f2f2f2;
+    color: var(--text);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -346,14 +402,12 @@ div.auth-container-section-header {
 
 /* Change the color of links on hover */
 .navigationbar a:hover {
-    background-color: #ddd;
-    color: black;
+    background-color: var(--text-muted);
 }
 
 /* Add a color to the active/current link */
 .navigationbar a.active {
-    background-color: #4CAF50;
-    color: white;
+    color: var(--accent);
 }
 
 main {
@@ -615,6 +669,10 @@ button.button {
     outline: none;
     height: fit-content;
     padding: 10px 40px 10px 40px;
+}
+
+button.button-large {
+    width: 300px;
 }
 
 button.button-disabled {

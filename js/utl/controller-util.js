@@ -63,6 +63,9 @@ const controllerUtil = {
         remove(){
             $('div.modal-background').remove();
         }
+    },
+    header: {
+        // TODO update header based on page name
     }
 
 }

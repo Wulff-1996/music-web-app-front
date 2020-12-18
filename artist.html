@@ -14,7 +14,15 @@
     <section id="artistDetailsSection" class="margintop">
 
         <div class="flex">
-            <img src="icons/icon-artist.svg" class="icon-big image-background padding-big">
+            <div class="with-fit">
+                <img src="icons/icon-artist.svg" class="icon-big image-background padding-big">
+
+                <div class="options-container width-fill margintop-big">
+                    <div id="searchAlbum" class="option-item width-fill text-center pointer option-item-selected"><h5>Albums</h5></div>
+                    <div id="searchTracks" class="option-item width-fill text-center pointer"><h5>Tracks</h5></div>
+                </div>
+
+            </div>
 
             <div class="left-margin-big width-fill">
                 <div class="flex">
@@ -39,10 +47,6 @@
     <section id="artistResultSection" class="margintop">
 
         <div class="flex width-fill">
-            <div class="options-container">
-                <div id="searchAlbum" class="option-item pointer option-item-selected"><h5>Albums</h5></div>
-                <div id="searchTracks" class="option-item pointer"><h5>Tracks</h5></div>
-            </div>
             <div class="width-fill">
                 <button id="addBtn" class="button right vertial-center">Add Track</button>
             </div>

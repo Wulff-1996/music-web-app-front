@@ -99,5 +99,8 @@ const api = {
     },
     getAlbumsById(id) {
         return http.get('albums/' + id)
+    },
+    postOrder(data){
+        return http.post('customer-invoices', data);
     }
 }

@@ -13,12 +13,14 @@ const storage = {
             return tracks;
         },
         addTrack(track) {
-            let tracks = [];
-            if (sessionStorage.getItem(TRACK_KEY)) {
-                tracks = JSON.parse(sessionStorage.getItem(TRACK_KEY));
+            if (!this.exists(track.id)){
+                let tracks = [];
+                if (sessionStorage.getItem(TRACK_KEY)) {
+                    tracks = JSON.parse(sessionStorage.getItem(TRACK_KEY));
+                }
+                tracks.push(track);
+                sessionStorage.setItem(TRACK_KEY, JSON.stringify(tracks));
             }
-            tracks.push(track);
-            sessionStorage.setItem(TRACK_KEY, JSON.stringify(tracks));
         },
         removeTrack(id) {
             let tracks = [];
@@ -26,7 +28,7 @@ const storage = {
                 tracks = JSON.parse(sessionStorage.getItem(TRACK_KEY));
             }
             tracks = tracks.filter(track => track.id !== id);
-            sessionStorage.setItem(TRACK_KEY, tracks);
+            sessionStorage.setItem(TRACK_KEY, JSON.stringify(tracks));
         },
         exists(id) {
             let tracks = [];
@@ -44,5 +46,23 @@ const storage = {
             sessionStorage.setItem(TRACK_KEY, JSON.stringify([]));
         }
     },
-    user: {}
+    user: {
+        get(){
+            let user = {};
+            if (sessionStorage.getItem(CUSTOMER_KEY)){
+                user = JSON.parse(sessionStorage.getItem(CUSTOMER_KEY));
+            }
+            return user;
+        },
+        set(customer){
+            sessionStorage.setItem(CUSTOMER_KEY, JSON.stringify(customer));
+        },
+        remove(){
+
+        }
+    },
+    clear(){
+        // clear all session data
+        sessionStorage.clear();
+    }
 }

@@ -1,59 +1,41 @@
 'use strict';
 
-if (session.hasSession()){
-    // redirect to index
-    window.location.href = 'index.html';
-}
+// fields
+const emailField = $('#emailField');
+const passwordField = $('#passwordField');
+const loginBtn = $('#loginBtn');
+const signupBtn = $('#signupBtn');
+const isAdminField = $('#isAdminToggle');
+
+let isValidEmail = false;
+let isValidPassword = false;
+let isAdmin = false;
 
 $(document).ready(function () {
 
-    const emailField = $('#emailField');
-    const passwordField = $('#passwordField');
-    const loginBtn = $('#loginBtn');
-    const signupBtn = $('#signupBtn');
-    const isAdminField = $('#isAdminToggle');
+    if (session.hasSession()){
+        // redirect to index
+        controllerUtil.redirector.toHome();
+    }
 
-    let isValidEmail = false;
-    let isValidPassword = false;
-    let isAdmin = false;
+    setupViews();
+});
+
+function setupViews(){
+    // listeners
+    loginBtn.on('click', function (){
+        console.log('clicked')
+        handleLogin();
+    });
 
     emailField.keyup(function () {
-        if (!isAdmin) {
-            isValidEmail = document.getElementById('emailField').checkValidity();
-
-            if (isValidEmail) {
-                emailField.removeClass('invalid');
-            } else {
-                emailField.addClass('invalid');
-            }
-
-            shouldEnableButton(isValidEmail, isValidPassword, false);
-        }
+        isValidEmail = document.getElementById('emailField').checkValidity();
+        updateInputField(emailField, isValidEmail);
     });
 
     passwordField.keyup(function () {
-
         isValidPassword = document.getElementById('passwordField').checkValidity();
-
-        if (isValidPassword) {
-            passwordField.removeClass('invalid');
-        } else {
-            passwordField.addClass('invalid');
-        }
-
-        shouldEnableButton(isValidEmail, isValidPassword, isAdmin);
-    });
-
-    loginBtn.on('click', function (){
-
-        const emailValue = emailField.val();
-        const passwordValue = passwordField.val();
-
-        if (isAdmin){
-            loginAdmin(passwordValue);
-        } else {
-            loginCustomer(emailValue, passwordValue);
-        }
+        updateInputField(passwordField, isValidPassword);
     });
 
     signupBtn.on('click', function (){
@@ -70,33 +52,52 @@ $(document).ready(function () {
         } else {
             emailField.fadeIn();
         }
+    });
+}
 
-        shouldEnableButton(isValidEmail, isValidPassword, isAdmin);
-    })
-});
+function handleLogin(){
+    updateAllInputFields();
 
-function shouldEnableButton(isValidEmail, isValidPassword = null, isAdmin) {
-    const loginBtn = $('#loginBtn');
+    if (isValidInputs()){
+        let password = passwordField.val();
+        let email = emailField.val();
 
-    if (isAdmin) {
-        if (isValidPassword) {
-            loginBtn.removeClass('disabled');
-            loginBtn.prop('disabled', false);
+        if (isAdmin){
+            loginAdmin(password)
         } else {
-            loginBtn.addClass('disabled');
-            loginBtn.prop('disabled', true);
-        }
-    } else {
-        if (isValidEmail && isValidPassword) {
-            loginBtn.removeClass('disabled');
-            loginBtn.prop('disabled', false);
-        } else {
-            loginBtn.addClass('disabled');
-            loginBtn.prop('disabled', true);
+            loginCustomer(email, password);
         }
     }
 }
 
+function isValidInputs(){
+    isValidEmail = document.getElementById('emailField').checkValidity();
+    isValidPassword = document.getElementById('passwordField').checkValidity();
+
+    if (isAdmin){
+        if (isValidPassword) return true;
+        else return false;
+    } else {
+        if (isValidEmail && isValidPassword) return true;
+        else return false;
+    }
+}
+
+function updateAllInputFields(){
+    updateInputField(emailField, isValidEmail);
+    updateInputField(passwordField, isValidPassword);
+}
+
+function updateInputField(inputFieldId, isValid) {
+    if (isValid) {
+        inputFieldId.removeClass('invalid');
+    } else {
+        inputFieldId.addClass('invalid');
+    }
+}
+
+
+// requests
 function loginAdmin(password) {
 
     api.loginAdmin(password)
@@ -111,6 +112,9 @@ function loginAdmin(password) {
         })
         .fail(function (reqest){
             // login failed
+            isValidPassword = false;
+            updateAllInputFields();
+
             $('#info').removeClass('invisible');
             $('#info').addClass('auth-container-info-text');
         });
@@ -121,6 +125,10 @@ function loginCustomer(email, password){
         .done(function (data){
             $('#info').addClass('invisible');
             // logged in
+            // save customer in session
+            storage.user.set(data);
+
+            // set cookies
             document.cookie = 'isAdmin=false';
             document.cookie = 'customer_id=' + data.customer_id;
 
@@ -128,6 +136,11 @@ function loginCustomer(email, password){
             window.location.href = 'index.html';
         })
         .fail(function (request){
+            // set input to invalid
+            isValidEmail = false;
+            isValidPassword = false;
+            updateAllInputFields();
+
             // login failed
             $('#info').removeClass('invisible');
             $('#info').addClass('auth-container-info-text');
