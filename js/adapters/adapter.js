@@ -10,8 +10,8 @@ const adapter = {
     getAlbumViews(albums) {
         return createAlbumViews(albums);
     },
-    getAlertErrorModal(title, message, mode){
-        return createAlertErrorModal(title, message, mode);
+    getAlertModal(title, message, mode = null, options = null){
+        return createAlertModal(title, message, mode, options);
     }
 };
 
@@ -76,7 +76,7 @@ function createTrackViews(tracks, mode = null) {
                 // add delete button
                 const deleteButton = $('<img/>', {
                     'src':'icons/icon-delete.svg',
-                    'class':'icon-medium gone delete img-list-item-button'
+                    'class':'icon-extra-small gone delete img-list-item-button'
                 }).appendTo(rightContainer);
                 deleteButton.data('id', track.id);
                 deleteButton.data('type', LIST_ITEM_TYPE_TRACK);
@@ -85,7 +85,7 @@ function createTrackViews(tracks, mode = null) {
             case LIST_ITEM_MODE_CART_ADD:
                 const cartBtn = $('<img/>', {
                     'src':'icons/icon-cart.svg',
-                    'class':'icon-medium gone cart img-list-item-button'
+                    'class':'icon-extra-small gone cart img-list-item-button'
                 }).appendTo(rightContainer);
                 cartBtn.data('id', track.id);
                 cartBtn.data('type', LIST_ITEM_TYPE_TRACK);
@@ -181,7 +181,27 @@ const ALERT_MODE_SUCCESS = 'ALERT_MODE_SUCCESS';
 const ALERT_MODE_ERROR_NOT_FOUND = 'ALERT_MODE_ERROR_NOT_FOUND';
 const ALERT_MODE_ERROR_UNAUTHORIZED = 'ALERT_MODE_ERROR_UNAUTHORIZED';
 
-function createAlertErrorModal(title, message, mode){
+// options
+const ALERT_HAS_CANCEL = 'ALERT_HAS_CANCEL';
+const ALERT_ACTION_TEXT = 'ALERT_ACTION_TEXT';
+const ALERT_CANCEL_TEXT = 'ALERT_CANCEL_TEXT';
+
+function createAlertModal(title, message, mode = null, options = null){
+    let hasCancel = false;
+    let actionText = 'OK';
+    let cancelText = 'Cancel';
+
+    /*options dict of options to the alert model
+    * -hasCancel: Boolean
+    * -actionText: string
+    * -cancelText: string
+    */
+    if (options != null){
+        hasCancel = (options[ALERT_HAS_CANCEL]) ? options[ALERT_HAS_CANCEL] : hasCancel;
+        actionText = (options[ALERT_ACTION_TEXT]) ? options[ALERT_ACTION_TEXT] : actionText;
+        cancelText = (options[ALERT_CANCEL_TEXT]) ? options[ALERT_CANCEL_TEXT] : cancelText;
+    }
+
     const alertbackground = $('<div/>', {'class': 'modal-background'});
     const alertModal = $('<div/>', {'class':'alert-modal center'}).appendTo(alertbackground);
 
@@ -200,13 +220,24 @@ function createAlertErrorModal(title, message, mode){
     // buttons container
     const buttonContainer = $('<div/>', {'class': 'margintop-big flex-center'}).appendTo(alertModal);
 
+    if (hasCancel){
+        // cancel button
+        const cancelButton = $('<button/>', {
+            'id': 'alertModalCancelBtn',
+            'class': 'alert-button with-fit marginright'
+        }).appendTo(buttonContainer);
+
+        cancelButton.text(cancelText);
+        cancelButton.data('mode', mode);
+    }
+
     // ok button
     const okButton = $('<button/>', {
         'id': 'alertModalOkBtn',
         'class': 'alert-button with-fit'
     }).appendTo(buttonContainer);
 
-    okButton.text('OK');
+    okButton.text(actionText);
     okButton.data('mode', mode);
 
     return alertbackground;

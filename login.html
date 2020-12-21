@@ -26,18 +26,17 @@
 
         <div id="info" class="auth-container-info-text, invisible">Email/Password invalid.</div>
 
-        <div class="auth-container-switch">
-            <input id="isAdminToggle" type="checkbox">
-            <span class="checkmark"></span>
-            Admin
+        <div id="adminbar" class="flex margintop">
+            <h5>Admin</h5>
+            <label class="switch">
+                <input id="isAdminToggle" type="checkbox" class="pointer">
+                <span class="slider round"></span>
+            </label>
         </div>
 
-        <div class="auth-container-input">
-            <button id="loginBtn" class="auth-container-button">Login</button>
-        </div>
-
-        <div class="auth-container-input">
-            <button id="signupBtn" class="auth-container-button">Signup</button>
+        <div class="margintop-big width-200 horizontal-center">
+            <button id="loginBtn" class="button pointer width-fill">Login</button>
+            <button id="signupBtn" class="button pointer margintop width-fill">Signup</button>
         </div>
     </div>
 </main>

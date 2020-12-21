@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <title>Profile</title>
+</head>
+<body>
+
+<div id="header-container"></div>
+
+<main class="main">
+    <section id="accountSection" class="margintop">
+
+        <div class="flex">
+
+            <div class="width-fill"></div>
+
+            <div class="flex width-fit">
+                <img id="profileEditBtn" src="icons/icon-edit.svg"
+                     class="icon-small marginleft padding-small img-button pointer"/>
+                <img id="profileDeleteBtn" src="icons/icon-delete.svg"
+                     class="icon-small marginleft padding-small img-button pointer"/>
+                <img id="profileSignOutBtn" src="icons/icon-signout.svg"
+                     class="icon-small marginleft padding-small img-button pointer"/>
+            </div>
+        </div>
+
+        <h3 class="vertial-center height-fill">Account</h3>
+
+        <div class="margintop flex">
+
+            <div class="flex-child-even-space margin-normal">
+
+                <div class="width-fill">
+                    <label class="input-header marginleft">First name</label>
+                    <input id="firstnameField" placeholder="first name" type="text" class="input margintop"
+                           maxlength="40" required disabled>
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">Last name</label>
+                    <input id="lastnameField" placeholder="last name" type="text" class="input margintop"
+                           maxlength="20" required disabled>
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">Email</label>
+                    <input id="emailField" autocomplete="off" placeholder="email" type="email" class="input margintop"
+                           maxlength="60" required disabled>
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">Password</label>
+                    <input id="passwordField" autocomplete="off" placeholder="password" type="password"
+                           class="input margintop" maxlength="255" disabled>
+                </div>
+
+            </div>
+
+            <div class="flex-child-even-space margin-normal">
+
+                <div class="width-fill">
+                    <label class="input-header marginleft">Phone</label>
+                    <input id="phoneField" placeholder="phone" type="text" class="input margintop" maxlength="24"
+                           disabled>
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">Fax</label>
+                    <input id="faxField" placeholder="fax" type="text" class="input margintop" maxlength="24" disabled>
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">Company</label>
+                    <input id="companyField" placeholder="company" type="text" class="input margintop" maxlength="80"
+                           disabled>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="Section" class="margintop-big">
+
+        <h3>Billing</h3>
+
+        <div class="margintop flex">
+
+            <div class="flex-child-even-space margin-normal">
+
+                <div class="width-fill">
+                    <label class="input-header marginleft">Address</label>
+                    <input id="addressField" placeholder="address" type="text" class="input margintop" maxlength="70"
+                           disabled>
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">City</label>
+                    <input id="cityField" placeholder="city" type="text" class="input margintop" maxlength="40"
+                           disabled>
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">Postal Code</label>
+                    <input id="postalCodeField" placeholder="postal code" type="text" class="input margintop"
+                           maxlength="10" disabled>
+                </div>
+
+            </div>
+
+            <div class="flex-child-even-space margin-normal">
+
+                <div class="width-fill">
+                    <label class="input-header marginleft">State</label>
+                    <input id="stateField" placeholder="state" type="text" class="input margintop" maxlength="40"
+                           disabled>
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">Country</label>
+                    <input id="countryField" placeholder="country" type="text" class="input margintop" maxlength="40"
+                           disabled>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="margintop-big center-content">
+        <p class="margin-normal gone">Error message goes here.</p>
+        <button id="profileSaveBtn" class="button margintop-big gone">Save</button>
+    </div>
+</main>
+
+<div id="footer-container"></div>
+
+</body>
+<script type="text/javascript" src="js/adapters/adapter.js"></script>
+<script type="text/javascript" src="js/utl/controller-util.js"></script>
+<script type="text/javascript" src="js/session.js"></script>
+<script type="text/javascript" src="js/storage.js"></script>
+<script type="text/javascript" src="js/api.js"></script>
+<script type="text/javascript" src="js/controllers/profile-controller.js"></script>
+
+</html>

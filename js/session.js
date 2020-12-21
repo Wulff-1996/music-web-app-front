@@ -1,68 +1,64 @@
 'use strict';
 
 const SESSION_IDENTIFIER = 'PHPSESSID';
+const ADMIN_KEY = 'isAdmin';
+const CUSTOMER_ID_KEY = 'customer_id';
 
 const session = {
+    // flags
     hasSession: function hasSession() {
-        let hasSession = false;
-        // cookie format {key=value};{key=value}
-        const cookies = document.cookie.split(';');
-
-        cookies.forEach(function (item, index) {
-            let cookie = item.trim().split('=');
-            if (cookie[0] == SESSION_IDENTIFIER) {
-                hasSession = true;
-            }
-        })
-        return hasSession;
+        if (getCookie(SESSION_IDENTIFIER)){
+            return true;
+        } else return false;
+    },
+    hasAdmin(){
+        if (getCookie(ADMIN_KEY)){
+            return true;
+        } else return false;
     },
     getSessionId: function () {
-        let session = null;
-        const cookies = document.cookie.split(';');
-
-        cookies.forEach(function (item, index) {
-            let cookie = item.trim().split('=');
-            if (cookie[0] == SESSION_IDENTIFIER) {
-                session = cookie[0];
-            }
-        })
-        return session;
+        return getCookie(SESSION_IDENTIFIER);
     },
-    isAdmin: function (){
-        let cookie = getCookie('isAdmin');
-
-        if (cookie != null){
-            // cookie value is a string
-            if (cookie[1] === 'true'){
+    isAdmin: function () {
+        let adminCookie = getCookie(ADMIN_KEY);
+        if (adminCookie){
+            if (adminCookie[1] === 'true'){
                 return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
+            } else return false;
+        } else return false;
     },
     customerId: function () {
-        let cookie = getCookie('customer_id');
+        return parseInt(getCookie(CUSTOMER_ID_KEY)[1]);
+    },
+    hasCustomer: function (){
+        if (getCookie(CUSTOMER_ID_KEY)){
+            return true;
+        } else return false
+    },
+    clearCookies() {
+        let cookies = document.cookie.split(';');
 
-        if (cookie != null){
-            return cookie[1];
-        } else {
-            return null;
-        }
+        cookies.forEach(function (cookie) {
+
+            console.log(cookies.length)
+
+            let key = cookie.trim().split('=');
+            console.log(key)
+            // set expire date to the past
+            document.cookie = key[0] + " =; expires = Thu, 01 Jan 1970 00:00:00 UTC; path = ";
+        });
     }
-
 }
 
 
-function getCookie(name){
+function getCookie(name) {
     let cookie = null;
 
     const cookies = document.cookie.split(';');
     cookies.forEach(function (item, index) {
 
         let data = item.trim().split('=');
-        if (data[0] == name){
+        if (data[0] == name) {
             cookie = data;
         }
     })

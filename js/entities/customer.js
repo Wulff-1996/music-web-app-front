@@ -17,7 +17,7 @@ class Customer {
 
     toJson() {
         return {
-            'first_name': this.firstname,
+            "first_name": this.firstname,
             "last_name": this.lastname,
             "email": this.email,
             "password": this.password,

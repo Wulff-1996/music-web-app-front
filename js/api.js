@@ -45,6 +45,7 @@ const http = {
         });
     },
     patch: function (url, data = null) {
+        console.log(data)
         url = getUrlWithParams(url, null)
         return $.ajax({
             url: url,
@@ -82,6 +83,9 @@ const api = {
     signupCustomer(customer){
         return http.post('customer-signup', customer);
     },
+    logout(){
+        return http.post('logout');
+    },
     getTrackById(id){
         return http.get('tracks/' + id);
     },
@@ -102,5 +106,11 @@ const api = {
     },
     postOrder(data){
         return http.post('customer-invoices', data);
+    },
+    updateCustomer(id, data){
+        return http.post('customers/' + id, data);
+    },
+    deleteCustomer(id){
+        return http.delete('customers/' + id);
     }
 }

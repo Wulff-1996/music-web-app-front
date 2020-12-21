@@ -57,6 +57,13 @@ const storage = {
         set(customer){
             sessionStorage.setItem(CUSTOMER_KEY, JSON.stringify(customer));
         },
+        hasUser(){
+            let hasUser = false;
+            if (sessionStorage.getItem(CUSTOMER_KEY)){
+                hasUser = true;
+            }
+            return hasUser;
+        },
         remove(){
 
         }

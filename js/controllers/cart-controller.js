@@ -26,7 +26,11 @@ $(document).ready(function () {
     // check if admin
     if (session.isAdmin()) {
         // this page is not allowed for admins, redirect to home
-        controllerUtil.redirector.toHome();
+        controllerUtil.alertDialog.show(
+            'No Allowed',
+            'You need to be logged in as an customer to access this page. You will be redirected to the home page.',
+            ALERT_MODE_ERROR_UNAUTHORIZED
+        );
     }
 
     setupViews();
@@ -72,6 +76,7 @@ function getTotal() {
 }
 
 function updateTotal() {
+    console.log(getTotal())
     let total = Math.round((getTotal() + Number.EPSILON) * 100) / 100;
     totalPriceField.text(total);
 }

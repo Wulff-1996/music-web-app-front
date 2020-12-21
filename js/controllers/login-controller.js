@@ -7,6 +7,7 @@ const loginBtn = $('#loginBtn');
 const signupBtn = $('#signupBtn');
 const isAdminField = $('#isAdminToggle');
 
+// flags
 let isValidEmail = false;
 let isValidPassword = false;
 let isAdmin = false;
@@ -15,7 +16,7 @@ $(document).ready(function () {
 
     if (session.hasSession()){
         // redirect to index
-        controllerUtil.redirector.toHome();
+        //controllerUtil.redirector.toHome(); TODO test
     }
 
     setupViews();
@@ -130,7 +131,7 @@ function loginCustomer(email, password){
 
             // set cookies
             document.cookie = 'isAdmin=false';
-            document.cookie = 'customer_id=' + data.customer_id;
+            document.cookie = 'customer_id=' + data.id;
 
             // redirect to index
             window.location.href = 'index.html';

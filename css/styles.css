@@ -79,9 +79,17 @@ body {
     margin-bottom: auto;
 }
 
+div.center-content {
+    text-align: center;
+}
+
 .horizontal-center {
     margin-left: auto;
     margin-right: auto;
+}
+
+.width-200 {
+    width: 200px;
 }
 
 .width-fill {
@@ -97,7 +105,7 @@ body {
 }
 
 .height-fill {
-    width: 100%;
+    height: 100%;
 }
 
 .height-fit {
@@ -177,7 +185,7 @@ img.img-button:hover {
 img.img-list-item-button {
     background-color: var(--secondary-background);
     border-radius: 20px;
-    padding: 6px 30px;
+    padding: 6px 15px;
     border: 1px solid var(--text-muted);
 }
 

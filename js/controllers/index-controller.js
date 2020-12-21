@@ -18,7 +18,6 @@ const searchField = $('#searchText');
 const listView = $('#listView');
 
 // views
-const infoTextField = $('#infoTextFieldIndex');
 const libraryView = $('#libraryBar');
 const addContainerView = $('#addContainer');
 
@@ -161,7 +160,7 @@ function setupViews() {
 
 ////////////////  business logic /////////////////
 function handleSearch() {
-    let search = valueOrNull(searchField.val());
+    let search = controllerUtil.valueOrNull(searchField.val());
 
     switch (getSearchOptionId()) {
 
@@ -294,19 +293,10 @@ function notifyPageChanged() {
 
 function updateList(views) {
     // show no results if empty
-    showNoResults(views.length == 0);
     showPagination(views.length == 0);
 
     listView.empty();
     listView.append(views);
-}
-
-function showNoResults(isEmpty) {
-    if (isEmpty) {
-        infoTextField.removeClass('gone');
-    } else {
-        infoTextField.addClass('gone');
-    }
 }
 
 function showPagination(isEmpty) {
@@ -333,12 +323,4 @@ function showPagination(isEmpty) {
 /////////////// helper functions ///////////////
 function getSearchOptionId() {
     return $('#indexOptions .option-item-selected').attr('id');
-}
-
-function valueOrNull(value) {
-    if (value == '') {
-        return null
-    } else {
-        return value;
-    }
 }

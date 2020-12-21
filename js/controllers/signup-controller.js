@@ -51,31 +51,30 @@ $(document).ready(function () {
             // remove info text
             updateInfoText(true);
 
-            // create customer from input
-            let customer = new Customer(
-                valueOrNull(firstNameField.val()),
-                valueOrNull(lastNameField.val()),
-                valueOrNull(emailField.val()),
-                valueOrNull(passwordField.val()),
-                valueOrNull(phoneField.val()),
-                valueOrNull(faxField.val()),
-                valueOrNull(companyField.val()),
-                valueOrNull(addressField.val()),
-                valueOrNull(cityField.val()),
-                valueOrNull(stateField.val()),
-                valueOrNull(countryField.val()),
-                valueOrNull(postalcodeField.val())
-            );
+            let customer = {
+                    'first_name': controllerUtil.valueOrNull(firstNameField.val()),
+                    "last_name": controllerUtil.valueOrNull(lastNameField.val()),
+                    "email": controllerUtil.valueOrNull(emailField.val()),
+                    "password": controllerUtil.valueOrNull(passwordField.val()),
+                    "phone": controllerUtil.valueOrNull(phoneField.val()),
+                    "fax": controllerUtil.valueOrNull(faxField.val()),
+                    "company": controllerUtil.valueOrNull(companyField.val()),
+                    "address": controllerUtil.valueOrNull(addressField.val()),
+                    "city": controllerUtil.valueOrNull(cityField.val()),
+                    "postal_code": controllerUtil.valueOrNull(postalcodeField.val()),
+                    "state": controllerUtil.valueOrNull(stateField.val()),
+                    "country": controllerUtil.valueOrNull(countryField.val())
+                };
 
             // make api call
-            signupCustomer(customer.toJson());
+            signupCustomer(customer);
         } else {
             // show infoText
             updateInfoText(false, 'Enter required fields, or format input correctly');
         }
     });
 
-    backBtn.on('click', function (){
+    backBtn.on('click', function () {
         window.location.href = 'login.html';
     })
 
@@ -171,9 +170,9 @@ function validateInput() {
     }
 }
 
-function updateInfoText(isValid, message){
+function updateInfoText(isValid, message) {
     infoTextField.text(message);
-    if (isValid){
+    if (isValid) {
         infoTextField.addClass('invisible');
     } else {
         infoTextField.removeClass('invisible');
@@ -181,7 +180,7 @@ function updateInfoText(isValid, message){
     }
 }
 
-function validateAllInputs(){
+function validateAllInputs() {
     updateInputField(firstNameField, isValidFirstName);
     updateInputField(lastNameField, isValidLastName);
     updateInputField(emailField, isValidEmail);
@@ -201,13 +200,5 @@ function updateInputField(inputFieldId, isValid) {
         inputFieldId.removeClass('invalid');
     } else {
         inputFieldId.addClass('invalid');
-    }
-}
-
-function valueOrNull(value) {
-    if (value == '') {
-        return null;
-    } else {
-        return value;
     }
 }
