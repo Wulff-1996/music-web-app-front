@@ -54,10 +54,6 @@ $(document).ready(function () {
     controllerUtil.checkForSession();
     controllerUtil.loadHeaderFooter();
 
-    // set fields
-    customer = storage.user.get();
-    customerId = session.customerId();
-
     // check if admin
     if (session.isAdmin()) {
         // this page is not allowed for admins, redirect to home
@@ -71,10 +67,15 @@ $(document).ready(function () {
                 ALERT_CANCEL_TEXT: 'To Home'
             }
         );
+    } else {
+        // set fields
+        customer = storage.user.get();
+        customerId = session.customerId();
+        populateViews();
     }
 
     setupViews();
-    populateViews();
+
 
 });
 

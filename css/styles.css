@@ -240,6 +240,40 @@ button.alert-button:hover {
     padding: 9px 39px 9px 39px;
 }
 
+/*          track modal    */
+div.trackmodal {
+    width: 800px;
+    background-color: var(--secondary-background);
+    height: fit-content;
+    border-radius: 10px;
+    border: 1px solid var(--item-border);
+    padding: 20px;
+}
+
+div.dropdown {
+    z-index: 1;
+    display: none;
+    position: absolute;
+    width: 380px;
+    background-color: var(--item-background);
+    border-radius: 10px;
+    border: 1px solid var(--item-border);
+    font-size: 13px;
+}
+
+div.dropdown-show {
+    display: block;
+}
+
+.dropdownchild {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdownchild:hover {
+    color: var(--accent);
+}
 
 /*     options container  */
 div.options-container {
@@ -506,6 +540,13 @@ div.itemHeader h5 {
 div.verticalDivider {
     border-left: 3px solid var(--text-muted);
     height: auto;
+}
+
+div.horizontal-divider {
+    height: 1px;
+    width: auto;
+    border: 0;
+    border-top: 1px solid var(--text-muted);
 }
 
 div.itemSubheader {

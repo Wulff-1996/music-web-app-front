@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <title>Title</title>
+</head>
+<body>
+
+<div class="modal-background">
+    <div class="trackmodal horizontal-center center">
+        <h3 class="vertial-center height-fill">Track</h3>
+
+        <div class="margintop flex">
+
+            <div class="flex-child-even-space margin-normal">
+
+                <div class="width-fill">
+                    <label class="input-header marginleft">Title</label>
+                    <input id="titleField" placeholder="title" type="text" class="input margintop"
+                           maxlength="200" required>
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">Price</label>
+                    <input id="priceField" placeholder="price" type="number" class="input margintop"
+                           max="99999999.99" min="0" step="0.01" required>
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">Album</label>
+                    <input id="albumField" placeholder="album" type="text"
+                           class="input margintop" maxlength="160" required>
+                    <div id="albumDropDown" class="dropdown margintop">
+                        <ul id="albumList">
+                            <p class="margin-normal pointer dropdownchild"></p>
+                            <p class="margin-normal pointer dropdownchild">Hello</p>
+                            <p class="margin-normal pointer dropdownchild">Hello</p>
+                            <p class="margin-normal pointer dropdownchild">Hello</p>
+                            <p class="margin-normal pointer dropdownchild">Hello</p>
+
+                        </ul>
+                        <div class="horizontal-divider marginleft marginright margintop"></div>
+                        <div class="flex-center">
+                            <img id="previousPageField" src="icons/icon-arrow-left.svg" class="pagination pointer"/>
+                            <h5 id="albumPageField" class="pointer">1</h5>
+                            <img id="nextPageField" src="icons/icon-arrow-right.svg" class="pagination pointer"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">Composer</label>
+                    <input id="composerField" placeholder="composer" type="text"
+                           class="input margintop" maxlength="220">
+                </div>
+
+            </div>
+
+            <div class="flex-child-even-space margin-normal">
+
+                <div class="width-fill">
+                    <label class="input-header marginleft">Genre</label>
+                    <input id="genreField" placeholder="genre" type="text" class="input margintop" maxlength="120">
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">Media Type</label>
+                    <input id="mediaField" placeholder="media" type="text" class="input margintop" maxlength="120">
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">Milliseconds</label>
+                    <input id="millisecondsField" placeholder="milliseconds" type="number" class="input margintop" min="0" step="1">
+                </div>
+
+                <div class="width-fill margintop">
+                    <label class="input-header marginleft">Bytes</label>
+                    <input id="bytesField" placeholder="bytes" type="number" class="input margintop" min="0" step="1">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script type="text/javascript" src="js/utl/controller-util.js"></script>
+<script type="text/javascript" src="js/session.js"></script>
+<script type="text/javascript" src="js/api.js"></script>
+<script type="text/javascript" src="js/adapters/adapter.js"></script>
+<script type="text/javascript" src="js/controllers/trackmodal-controller.js"></script>
+</html>

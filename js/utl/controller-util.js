@@ -30,10 +30,8 @@ const controllerUtil = {
     checkForSession() {
         // user has session, check what kind of user
         if (session.isAdmin()){
-            console.log('checkForSession: admin')
             this.validateAdmin();
         } else {
-            console.log('checkForSession: customer')
             this.validateCustomer();
         }
     },
