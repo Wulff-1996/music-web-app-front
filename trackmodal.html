@@ -33,19 +33,12 @@
                     <input id="albumField" placeholder="album" type="text"
                            class="input margintop" maxlength="160" required>
                     <div id="albumDropDown" class="dropdown margintop">
-                        <ul id="albumList">
-                            <p class="margin-normal pointer dropdownchild"></p>
-                            <p class="margin-normal pointer dropdownchild">Hello</p>
-                            <p class="margin-normal pointer dropdownchild">Hello</p>
-                            <p class="margin-normal pointer dropdownchild">Hello</p>
-                            <p class="margin-normal pointer dropdownchild">Hello</p>
-
-                        </ul>
+                        <ul id="albumList"></ul>
                         <div class="horizontal-divider marginleft marginright margintop"></div>
                         <div class="flex-center">
-                            <img id="previousPageField" src="icons/icon-arrow-left.svg" class="pagination pointer"/>
+                            <img src="icons/icon-arrow-left.svg" class="pagination pointer previousPage"/>
                             <h5 id="albumPageField" class="pointer">1</h5>
-                            <img id="nextPageField" src="icons/icon-arrow-right.svg" class="pagination pointer"/>
+                            <img src="icons/icon-arrow-right.svg" class="pagination pointer nextPage"/>
                         </div>
                     </div>
                 </div>
@@ -63,11 +56,29 @@
                 <div class="width-fill">
                     <label class="input-header marginleft">Genre</label>
                     <input id="genreField" placeholder="genre" type="text" class="input margintop" maxlength="120">
+                    <div id="genreDropDown" class="dropdown margintop">
+                        <ul id="genreList"></ul>
+                        <div class="horizontal-divider marginleft marginright margintop"></div>
+                        <div class="flex-center">
+                            <img src="icons/icon-arrow-left.svg" class="pagination pointer previousPage"/>
+                            <h5 id="genrePageField" class="pointer">1</h5>
+                            <img src="icons/icon-arrow-right.svg" class="pagination pointer nextPage"/>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="width-fill margintop">
                     <label class="input-header marginleft">Media Type</label>
                     <input id="mediaField" placeholder="media" type="text" class="input margintop" maxlength="120">
+                    <div id="mediaDropDown" class="dropdown margintop">
+                        <ul id="mediaList"></ul>
+                        <div class="horizontal-divider marginleft marginright margintop"></div>
+                        <div class="flex-center">
+                            <img src="icons/icon-arrow-left.svg" class="pagination pointer previousPage"/>
+                            <h5 id="mediaPageField" class="pointer">1</h5>
+                            <img src="icons/icon-arrow-right.svg" class="pagination pointer nextPage"/>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="width-fill margintop">
@@ -90,6 +101,9 @@
 <script type="text/javascript" src="js/utl/controller-util.js"></script>
 <script type="text/javascript" src="js/session.js"></script>
 <script type="text/javascript" src="js/api.js"></script>
+<script type="text/javascript" src="js/entities/track.js"></script>
 <script type="text/javascript" src="js/adapters/adapter.js"></script>
-<script type="text/javascript" src="js/controllers/trackmodal-controller.js"></script>
+<script type="text/javascript" src="js/controllers/track-modal-controller.js"></script>
+<script type="text/javascript" src="js/test.js"></script>
+
 </html>

@@ -112,5 +112,11 @@ const api = {
     },
     deleteCustomer(id){
         return http.delete('customers/' + id);
+    },
+    getGenres(params = null){
+        return http.get('search-genres', params);
+    },
+    getMedia(params = null){
+        return http.get('search-media', params);
     }
 }

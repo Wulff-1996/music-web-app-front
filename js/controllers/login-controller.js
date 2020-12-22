@@ -16,7 +16,7 @@ $(document).ready(function () {
 
     if (session.hasSession()){
         // redirect to index
-        //controllerUtil.redirector.toHome(); TODO test
+        controllerUtil.redirector.toHome();
     }
 
     setupViews();
