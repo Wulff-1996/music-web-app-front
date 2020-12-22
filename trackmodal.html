@@ -8,8 +8,9 @@
 </head>
 <body>
 
-<div class="modal-background">
-    <div class="trackmodal horizontal-center center">
+<div id="trackModalBackground" class="modal-background">
+    <div id="trackModal" class="trackmodal horizontal-center center">
+
         <h3 class="vertial-center height-fill">Track</h3>
 
         <div class="margintop flex">
@@ -18,34 +19,34 @@
 
                 <div class="width-fill">
                     <label class="input-header marginleft">Title</label>
-                    <input id="titleField" placeholder="title" type="text" class="input margintop"
+                    <input id="trackModalTitleField" placeholder="title" type="text" class="input margintop"
                            maxlength="200" required>
                 </div>
 
                 <div class="width-fill margintop">
                     <label class="input-header marginleft">Price</label>
-                    <input id="priceField" placeholder="price" type="number" class="input margintop"
+                    <input id="trackModalPriceField" placeholder="price" type="number" class="input margintop"
                            max="99999999.99" min="0" step="0.01" required>
                 </div>
 
                 <div class="width-fill margintop">
                     <label class="input-header marginleft">Album</label>
-                    <input id="albumField" placeholder="album" type="text"
+                    <input id="trackModalAlbumField" placeholder="album" type="text"
                            class="input margintop" maxlength="160" required>
-                    <div id="albumDropDown" class="dropdown margintop">
-                        <ul id="albumList"></ul>
+                    <div id="trackModalAlbumDropDown" class="dropdown margintop">
+                        <ul id="trackModalAlbumList"></ul>
                         <div class="horizontal-divider marginleft marginright margintop"></div>
                         <div class="flex-center">
-                            <img src="icons/icon-arrow-left.svg" class="pagination pointer previousPage"/>
-                            <h5 id="albumPageField" class="pointer">1</h5>
-                            <img src="icons/icon-arrow-right.svg" class="pagination pointer nextPage"/>
+                            <img src="icons/icon-arrow-left.svg" class="pagination pointer trackModalPreviousPage"/>
+                            <h5 id="trackModalAlbumPageField" class="pointer">1</h5>
+                            <img src="icons/icon-arrow-right.svg" class="pagination pointer trackModalNextPage"/>
                         </div>
                     </div>
                 </div>
 
                 <div class="width-fill margintop">
                     <label class="input-header marginleft">Composer</label>
-                    <input id="composerField" placeholder="composer" type="text"
+                    <input id="trackModalComposerField" placeholder="composer" type="text"
                            class="input margintop" maxlength="220">
                 </div>
 
@@ -55,40 +56,44 @@
 
                 <div class="width-fill">
                     <label class="input-header marginleft">Genre</label>
-                    <input id="genreField" placeholder="genre" type="text" class="input margintop" maxlength="120">
-                    <div id="genreDropDown" class="dropdown margintop">
-                        <ul id="genreList"></ul>
+                    <input id="trackModalGenreField" placeholder="genre" type="text" class="input margintop"
+                           maxlength="120">
+                    <div id="trackModalGenreDropDown" class="dropdown margintop">
+                        <ul id="trackModalGenreList"></ul>
                         <div class="horizontal-divider marginleft marginright margintop"></div>
                         <div class="flex-center">
-                            <img src="icons/icon-arrow-left.svg" class="pagination pointer previousPage"/>
-                            <h5 id="genrePageField" class="pointer">1</h5>
-                            <img src="icons/icon-arrow-right.svg" class="pagination pointer nextPage"/>
+                            <img src="icons/icon-arrow-left.svg" class="pagination pointer trackModalPreviousPage"/>
+                            <h5 id="trackModalGenrePageField" class="pointer">1</h5>
+                            <img src="icons/icon-arrow-right.svg" class="pagination pointer trackModalNextPage"/>
                         </div>
                     </div>
                 </div>
 
                 <div class="width-fill margintop">
                     <label class="input-header marginleft">Media Type</label>
-                    <input id="mediaField" placeholder="media" type="text" class="input margintop" maxlength="120">
-                    <div id="mediaDropDown" class="dropdown margintop">
-                        <ul id="mediaList"></ul>
+                    <input id="trackModalMediaField" placeholder="media" type="text" class="input margintop"
+                           maxlength="120">
+                    <div id="trackModalMediaDropDown" class="dropdown margintop">
+                        <ul id="trackModalMediaList"></ul>
                         <div class="horizontal-divider marginleft marginright margintop"></div>
                         <div class="flex-center">
-                            <img src="icons/icon-arrow-left.svg" class="pagination pointer previousPage"/>
-                            <h5 id="mediaPageField" class="pointer">1</h5>
-                            <img src="icons/icon-arrow-right.svg" class="pagination pointer nextPage"/>
+                            <img src="icons/icon-arrow-left.svg" class="pagination pointer trackModalPreviousPage"/>
+                            <h5 id="trackModalMediaPageField" class="pointer">1</h5>
+                            <img src="icons/icon-arrow-right.svg" class="pagination pointer trackModalNextPage"/>
                         </div>
                     </div>
                 </div>
 
                 <div class="width-fill margintop">
                     <label class="input-header marginleft">Milliseconds</label>
-                    <input id="millisecondsField" placeholder="milliseconds" type="number" class="input margintop" min="0" step="1">
+                    <input id="trackModalMillisecondsField" placeholder="milliseconds" type="number"
+                           class="input margintop" min="0" step="1">
                 </div>
 
                 <div class="width-fill margintop">
                     <label class="input-header marginleft">Bytes</label>
-                    <input id="bytesField" placeholder="bytes" type="number" class="input margintop" min="0" step="1">
+                    <input id="trackModalBytesField" placeholder="bytes" type="number" class="input margintop" min="0"
+                           step="1">
                 </div>
 
             </div>

@@ -1,28 +1,28 @@
 'use strict';
 
 // dropdowns
-const albumDropDown = $('#albumDropDown');
-const genreDropDown = $('#genreDropDown');
-const mediaDropDown = $('#mediaDropDown');
+const albumDropDown = $('#trackModalAlbumDropDown');
+const genreDropDown = $('#trackModalGenreDropDown');
+const mediaDropDown = $('#trackModalMediaDropDown');
 
 // lists
-const albumList = $('#albumList');
-const genreList = $('#genreList');
-const mediaList = $('#mediaList');
+const albumList = $('#trackModalAlbumList');
+const genreList = $('#trackModalGenreList');
+const mediaList = $('#trackModalMediaList');
 
 // views
-const titleField = $('#titleField');
-const priceField = $('#priceField');
-const albumField = $('#albumField');
-const composerField = $('#composerField');
-const genreField = $('#genreField');
-const mediaField = $('#mediaField');
-const millisecondsField = $('#millisecondsField');
-const bytesField = $('#bytesField');
+const titleField = $('#trackModalTitleField');
+const priceField = $('#trackModalPriceField');
+const albumField = $('#trackModalAlbumField');
+const composerField = $('#trackModalComposerField');
+const genreField = $('#trackModalGenreField');
+const mediaField = $('#trackModalMediaField');
+const millisecondsField = $('#trackModalMillisecondsField');
+const bytesField = $('#trackModalBytesField');
 
-const albumPageField = $('#albumPageField');
-const genrePageField = $('#genrePageField');
-const mediaPageField = $('#mediaPageField');
+const albumPageField = $('#trackModalAlbumPageField');
+const genrePageField = $('#trackModalGenrePageField');
+const mediaPageField = $('#trackModalMediaPageField');
 
 // fields
 let trackModalPage = 0;
@@ -145,7 +145,7 @@ function setupViews() {
     });
 
     // pagination
-    $('img.previousPage').on('click', function (){
+    $('img.trackModalPreviousPage').on('click', function (){
         if (trackModalPage > 0){
             trackModalPage--;
             notifyPageChanged();
@@ -153,7 +153,7 @@ function setupViews() {
         }
     });
 
-    $('img.nextPage').on('click', function (){
+    $('img.trackModalNextPage').on('click', function (){
         let isDisabled = $(this).attr('disabled');
         // null means it does not have disabled
         if (isDisabled == null) {
@@ -277,9 +277,9 @@ function notifyPageChanged() {
 
 function enableNextPage(isEnable){
     if (isEnable){
-        $('img.nextPage').removeAttr('disabled');
+        $('img.trackModalNextPage').removeAttr('disabled');
     } else {
-        $('img.nextPage').attr('disabled', 'disabled');
+        $('img.trackModalNextPage').attr('disabled', 'disabled');
     }
 }
 
