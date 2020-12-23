@@ -24,7 +24,7 @@ let page = 0;
 $(document).ready(function () {
 
     controllerUtil.checkForSession();
-    controllerUtil.validateQueryParamId(albumId);
+    if (!controllerUtil.validateQueryParamId(albumId)) return;
     controllerUtil.loadHeaderFooter();
 
     // check if admin
@@ -96,7 +96,7 @@ function fetchAlbum() {
             trackTotalField.text(data.track_total);
         })
         .fail(function (request) {
-
+            errorHandler.handleFail(request);
         });
 }
 
@@ -112,7 +112,7 @@ function fetchTracks() {
             updateList(adapter.getTrackViews(tracks));
         })
         .fail(function (request) {
-
+            errorHandler.handleFail(request);
         });
 }
 

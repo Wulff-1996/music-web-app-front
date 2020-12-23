@@ -45,7 +45,6 @@ const http = {
         });
     },
     patch: function (url, data = null) {
-        console.log(data)
         url = getUrlWithParams(url, null)
         return $.ajax({
             url: url,
@@ -118,5 +117,14 @@ const api = {
     },
     getMedia(params = null){
         return http.get('search-media', params);
+    },
+    updateTrack(id, track){
+        return http.post('tracks/' + id, track);
+    },
+    addTrack(track){
+        return http.post('tracks', track);
+    },
+    deleteTrack(id){
+        return http.delete('tracks/' + id);
     }
 }

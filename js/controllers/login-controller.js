@@ -14,7 +14,7 @@ let isAdmin = false;
 
 $(document).ready(function () {
 
-    if (session.hasSession()){
+    if (controllerUtil.hasLoggedInUser()){
         // redirect to index
         controllerUtil.redirector.toHome();
     }
@@ -25,7 +25,6 @@ $(document).ready(function () {
 function setupViews(){
     // listeners
     loginBtn.on('click', function (){
-        console.log('clicked')
         handleLogin();
     });
 

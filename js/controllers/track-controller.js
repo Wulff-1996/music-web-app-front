@@ -17,17 +17,32 @@ const addToBasketBtn = $('#toBasketBtn');
 const deleteBtn = $('#trackDeleteBtn');
 const editBtn = $('#trackEditBtn');
 
+// events
+const EVENT_DELETE = 'EVENT_DELETE';
+const EVENT_DELETE_SUCCESS = 'EVENT_DELETE_SUCCESS';
+
 
 // fields
-const trackId = parseInt(controllerUtil.getParam('id'));
+const trackId = controllerUtil.getParam('id');
 const isAdmin = session.isAdmin();
 let isInCart = storage.cart.exists(trackId);
 let track = null;
 
+let trackModalDelegate = {
+    onTrackUpdated(data){
+        track = data;
+        populateView();
+    },
+    onTrackAdded(data){
+        console.log('track added')
+        console.log(data);
+    }
+}
+
 $(document).ready(function () {
 
     controllerUtil.checkForSession();
-    controllerUtil.validateQueryParamId(trackId);
+    if (!controllerUtil.validateQueryParamId(trackId)) return;
     controllerUtil.loadHeaderFooter();
 
     // remove views based on auth
@@ -52,16 +67,6 @@ $(document).ready(function () {
     fetchTrack();
 });
 
-function updateAddToBasketButton(isDisabled) {
-    if (isDisabled) {
-        addToBasketBtn.prop('disabled', true);
-        addToBasketBtn.addClass('button-disabled');
-    } else {
-        addToBasketBtn.prop('disabled', false);
-        addToBasketBtn.removeClass('button-disabled');
-    }
-}
-
 function updateAddCartBtnText(isDisabled) {
     if (isDisabled) {
         addToBasketBtn.text('Already in Basket');
@@ -73,25 +78,33 @@ function updateAddCartBtnText(isDisabled) {
 function setupViews() {
     // listeners
     addToBasketBtn.on('click', function () {
-        // disable button
-        updateAddToBasketButton(true);
-
         // add to storage
         storage.cart.addTrack(track);
+
+        // enable and update cart button
+        updateAddCartBtnText(true);
 
         // alert user of item added
         controllerUtil.alertDialog.show(
             'Track Added',
-            'Track added to cart.',
-            ALERT_MODE_SUCCESS);
+            'Track added to cart.'
+        );
     });
 
     editBtn.on('click', function () {
-        // TODO
+        trackModal.show(TrackModalController.MODE_EDIT, trackModalDelegate, track)
     });
 
     deleteBtn.on('click', function () {
-        // TODO
+        controllerUtil.alertDialog.show(
+            'Delete Track',
+            'Are you sure you want to delete this track? This action cannot be undone.',
+            EVENT_DELETE,
+            {
+                ALERT_HAS_CANCEL: true,
+                ALERT_ACTION_TEXT: 'Delete'
+            }
+        )
     });
 
     artistNameField.on('click', function () {
@@ -112,22 +125,30 @@ function setupViews() {
 
         // check mode
         switch (mode){
-            case ALERT_MODE_SUCCESS:
-                // track added to cart
-                updateAddToBasketButton(true);
-                updateAddCartBtnText(true);
+
+            case EVENT_DELETE:
+                deleteTrack();
                 break;
 
-            case ALERT_MODE_ERROR_NOT_FOUND:
-                // direct to home
+            case EVENT_DELETE_SUCCESS:
                 controllerUtil.redirector.toHome();
-                break;
-
-            case ALERT_MODE_ERROR_UNAUTHORIZED:
-                controllerUtil.redirector.toLogin();
                 break;
         }
     });
+}
+
+function populateView(){
+    trackTitleField.text(track.title);
+    priceField.text(track.unit_price);
+    artistNameField.text(track.artist.name);
+    artistNameField.data('id', track.artist.id);
+    albumTitleField.text(track.album.title);
+    albumTitleField.data('id', track.album.id);
+    composerField.text(track.composer);
+    genreField.text(track.genre.name);
+    millisecondsField.text(track.milliseconds);
+    mediaField.text(track.media.name);
+    bytesField.text(track.bytes);
 }
 
 //////// request ///////////
@@ -135,37 +156,23 @@ function fetchTrack() {
     api.getTrackById(trackId)
         .done(function (data) {
             track = data;
-            trackTitleField.text(data.title);
-            priceField.text(data.unit_price);
-            artistNameField.text(data.artist.name);
-            artistNameField.data('id', data.artist.id);
-            albumTitleField.text(data.album.title);
-            albumTitleField.data('id', data.album.id);
-            composerField.text(data.composer);
-            genreField.text(data.genre.name);
-            millisecondsField.text(data.milliseconds);
-            mediaField.text(data.media.name);
-            bytesField.text(data.bytes);
+            populateView();
         })
         .fail(function (request) {
-            switch (request.status) {
+            errorHandler.handleFail(request);
+        });
+}
 
-                case 404:
-                    // not found
-                    controllerUtil.alertDialog.show(
-                        'Not Found',
-                        'No resource found with id: ' + trackId + '.\n' +
-                        'You will be redirected to home page.',
-                        ALERT_MODE_ERROR_NOT_FOUND)
-                    break;
-
-                case 401:
-                    // unautherized
-                    controllerUtil.alertDialog.show(
-                        'Unauthorized',
-                        'This page require you to be logged in. You will be redirected to the login page.',
-                        ALERT_MODE_ERROR_UNAUTHORIZED)
-                    break;
-            }
+function deleteTrack(){
+    api.deleteTrack(trackId)
+        .done(function (data){
+            controllerUtil.alertDialog.show(
+                'Track Deleted',
+                'The track was successfully deleted. You will now be redirected to home.',
+                EVENT_DELETE_SUCCESS
+            )
+        })
+        .fail(function (request){
+            errorHandler.handleFail(request);
         });
 }

@@ -97,16 +97,16 @@ function setupViews() {
         }
     });
 
-    deleteBtn.on('click', function (){
-       controllerUtil.alertDialog.show(
-           'Delete Account',
-           'Are you sure you want to delete this account? this action cannot be undone.',
-           EVENT_DELETE,
-           {
-               ALERT_HAS_CANCEL: true,
-               ALERT_ACTION_TEXT: 'Delete'
-           }
-       )
+    deleteBtn.on('click', function () {
+        controllerUtil.alertDialog.show(
+            'Delete Account',
+            'Are you sure you want to delete this account? this action cannot be undone.',
+            EVENT_DELETE,
+            {
+                ALERT_HAS_CANCEL: true,
+                ALERT_ACTION_TEXT: 'Delete'
+            }
+        )
     });
 
     saveBtn.on('click', function () {
@@ -161,7 +161,7 @@ function setupViews() {
                 break;
 
             case EVENT_ADMIN_LOGIN:
-                if (isOkAction){
+                if (isOkAction) {
                     // logout
                     controllerUtil.logout();
                 } else {
@@ -170,73 +170,68 @@ function setupViews() {
                 }
                 break;
 
-            case ALERT_MODE_ERROR_UNAUTHORIZED:
-                // clear all data and redirect to login
-                controllerUtil.logout();
-                break;
-
         }
+    });
 
-        // input fields
-        firstnameField.keyup(function () {
-            isvalidFirstname = document.getElementById(firstnameField.attr('id')).checkValidity();
-            updateInputField(firstnameField, isvalidFirstname);
-        });
+    // input fields
+    firstnameField.keyup(function () {
+        isvalidFirstname = document.getElementById(firstnameField.attr('id')).checkValidity();
+        updateInputField(firstnameField, isvalidFirstname);
+    });
 
-        lastnameField.keyup(function () {
-            isvalidLastname = document.getElementById(lastnameField.attr('id')).checkValidity();
-            updateInputField(lastnameField, isvalidLastname);
-        });
+    lastnameField.keyup(function () {
+        isvalidLastname = document.getElementById(lastnameField.attr('id')).checkValidity();
+        updateInputField(lastnameField, isvalidLastname);
+    });
 
-        emailField.keyup(function () {
-            isvalidEmail = document.getElementById(emailField.attr('id')).checkValidity();
-            updateInputField(emailField, isvalidEmail);
-        });
+    emailField.keyup(function () {
+        isvalidEmail = document.getElementById(emailField.attr('id')).checkValidity();
+        updateInputField(emailField, isvalidEmail);
+    });
 
-        passwordField.keyup(function () {
-            isvalidPassword = document.getElementById(passwordField.attr('id')).checkValidity();
-            updateInputField(passwordField, isvalidPassword);
-        });
+    passwordField.keyup(function () {
+        isvalidPassword = document.getElementById(passwordField.attr('id')).checkValidity();
+        updateInputField(passwordField, isvalidPassword);
+    });
 
-        phoneField.keyup(function () {
-            isvalidPhone = document.getElementById(phoneField.attr('id')).checkValidity();
-            updateInputField(phoneField, isvalidPhone);
-        });
+    phoneField.keyup(function () {
+        isvalidPhone = document.getElementById(phoneField.attr('id')).checkValidity();
+        updateInputField(phoneField, isvalidPhone);
+    });
 
-        faxField.keyup(function () {
-            isvalidFax = document.getElementById(faxField.attr('id')).checkValidity();
-            updateInputField(faxField, isvalidFax);
-        });
+    faxField.keyup(function () {
+        isvalidFax = document.getElementById(faxField.attr('id')).checkValidity();
+        updateInputField(faxField, isvalidFax);
+    });
 
-        companyField.keyup(function () {
-            isvalidCompany = document.getElementById(companyField.attr('id')).checkValidity();
-            updateInputField(companyField, isvalidCompany);
-        });
+    companyField.keyup(function () {
+        isvalidCompany = document.getElementById(companyField.attr('id')).checkValidity();
+        updateInputField(companyField, isvalidCompany);
+    });
 
-        addressField.keyup(function () {
-            isvalidAddress = document.getElementById(addressField.attr('id')).checkValidity();
-            updateInputField(addressField, isvalidAddress);
-        });
+    addressField.keyup(function () {
+        isvalidAddress = document.getElementById(addressField.attr('id')).checkValidity();
+        updateInputField(addressField, isvalidAddress);
+    });
 
-        cityField.keyup(function () {
-            isvalidCity = document.getElementById(cityField.attr('id')).checkValidity();
-            updateInputField(cityField, isvalidCity);
-        });
+    cityField.keyup(function () {
+        isvalidCity = document.getElementById(cityField.attr('id')).checkValidity();
+        updateInputField(cityField, isvalidCity);
+    });
 
-        stateField.keyup(function () {
-            isvalidState = document.getElementById(stateField.attr('id')).checkValidity();
-            updateInputField(stateField, isvalidState);
-        });
+    stateField.keyup(function () {
+        isvalidState = document.getElementById(stateField.attr('id')).checkValidity();
+        updateInputField(stateField, isvalidState);
+    });
 
-        countryField.keyup(function () {
-            isvalidCountry = document.getElementById(countryField.attr('id')).checkValidity();
-            updateInputField(countryField, isvalidCountry);
-        });
+    countryField.keyup(function () {
+        isvalidCountry = document.getElementById(countryField.attr('id')).checkValidity();
+        updateInputField(countryField, isvalidCountry);
+    });
 
-        postalCodeField.keyup(function () {
-            isvalidPostalCode = document.getElementById(postalCodeField.attr('id')).checkValidity();
-            updateInputField(postalCodeField, isvalidPostalCode);
-        });
+    postalCodeField.keyup(function () {
+        isvalidPostalCode = document.getElementById(postalCodeField.attr('id')).checkValidity();
+        updateInputField(postalCodeField, isvalidPostalCode);
     });
 }
 
@@ -278,6 +273,9 @@ function handleUpdateCustomer() {
         };
 
         updateCustomer(customer);
+    } else {
+        // enable button again
+        enableButton(saveBtn, true);
     }
 }
 
@@ -407,22 +405,7 @@ function updateCustomer(customer) {
             );
         })
         .fail(function (request) {
-
-            if (request.status === 401) {
-                // not authorized
-                controllerUtil.alertDialog.show(
-                    'Unauthorized',
-                    request.responseJSON.message,
-                    ALERT_MODE_ERROR_UNAUTHORIZED
-                );
-            } else {
-                // any other error
-                controllerUtil.alertDialog.show(
-                    'Unauthorized',
-                    request.responseJSON.message,
-                    EVENT_UPDATE_FAIL
-                );
-            }
+            errorHandler.handleFail(request);
         });
 }
 
@@ -436,20 +419,7 @@ function deleteAccount() {
             );
         })
         .fail(function (request) {
-            controllerUtil.alertDialog.show(
-                'Delete Failed',
-                'You cannot delete this account since it has data associated to this account.'
-            );
-        });
-}
-
-function logout() {
-    api.logout()
-        .done(function (data) {
-
-        })
-        .fail(function (request) {
-
+            errorHandler.handleFail(request);
         });
 }
 

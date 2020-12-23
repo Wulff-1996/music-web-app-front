@@ -1,26 +1,26 @@
 'use strict';
 
 const controllerUtil = {
-    validateCustomer(){
+    validateCustomer() {
         let hasSessionCookie = session.hasSession();
         let hasCustomerCookie = session.hasCustomer();
         let hasAdminCookie = session.hasAdmin();
         let hasCustomerData = storage.user.hasUser();
         let isAdmin = session.isAdmin() // customer should have isAdmin = false
 
-        if (!hasSessionCookie || !hasCustomerCookie || !hasAdminCookie || !hasCustomerData || isAdmin){
+        if (!hasSessionCookie || !hasCustomerCookie || !hasAdminCookie || !hasCustomerData || isAdmin) {
             // missing required data, clear all data and logout
             session.clearCookies();
             storage.clear();
             this.redirector.toLogin();
         }
     },
-    validateAdmin(){
+    validateAdmin() {
         let hasSessionCookie = session.hasSession();
         let hasAdminCookie = session.hasAdmin();
         let isAdmin = session.isAdmin();
 
-        if (!hasSessionCookie || !hasAdminCookie || !isAdmin){
+        if (!hasSessionCookie || !hasAdminCookie || !isAdmin) {
             // missing required data, clear all data and logout
             session.clearCookies();
             storage.clear();
@@ -29,16 +29,48 @@ const controllerUtil = {
     },
     checkForSession() {
         // user has session, check what kind of user
-        if (session.isAdmin()){
+        if (session.isAdmin()) {
             this.validateAdmin();
         } else {
             this.validateCustomer();
         }
     },
+    hasLoggedInUser() {
+        if (!session.hasSession()) {
+            return false;
+        }
+        if (this.hasLoggedInCustomer() || this.hasLoggedInAdmin()) {
+            return true;
+        } else return false;
+    },
+    hasLoggedInAdmin() {
+        let hasAdminCookie = session.hasAdmin();
+        let isAdmin = session.isAdmin();
+
+        if (!hasAdminCookie || !isAdmin) {
+            return false;
+        } else return true;
+    },
+    hasLoggedInCustomer() {
+        let hasCustomerCookie = session.hasCustomer();
+        let hasAdminCookie = session.hasAdmin();
+        let hasCustomerData = storage.user.hasUser();
+        let isAdmin = session.isAdmin() // customer should have isAdmin = false
+
+        if (!hasCustomerCookie || !hasAdminCookie || !hasCustomerData || isAdmin) {
+            return false;
+        } else return true;
+    },
     getParam(param) {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
-        return urlParams.get(param);
+
+        param = urlParams.get(param);
+
+        if (!isNaN(param) && Number.isInteger(parseInt(param))){
+            // param is int
+            return parseInt(param);
+        } else return null;
     },
     loadHeaderFooter() {
         // ids are the same for each page
@@ -47,13 +79,18 @@ const controllerUtil = {
     },
     validateQueryParamId(id) {
         // check if id in url query params
-        id = parseInt(id); // if 99.99 => 99 if string => NaN
-        if (id === null || Number.isInteger(id) === false) {
-            alert('need to pass id in url. You will be redirected to home page.');
 
-            // redirect user to home
-            window.location.href = 'index.html';
-        }
+        if (id === null || Number.isInteger(id) === false) {
+
+            controllerUtil.alertDialog.show(
+                'Invalid Path Id',
+                'You will be redirected to the home page.',
+                ALERT_EVENT_INVALID_PATH_ID
+            );
+
+            return false;
+            // the event: ALERT_EVENT_INVALID_PATH_ID will catch in the errorHandler
+        } return true;
     },
     handleListItemClicked(data) {
         switch (data.type) {
@@ -77,7 +114,7 @@ const controllerUtil = {
             return value;
         }
     },
-    logout(){
+    logout() {
         // clear data
         storage.clear();
         session.clearCookies();
@@ -86,7 +123,7 @@ const controllerUtil = {
 
         // logout
         api.logout()
-            .always(function (){
+            .always(function () {
                 redirector.toLogin();
             });
     },

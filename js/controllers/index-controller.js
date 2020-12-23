@@ -50,10 +50,10 @@ function setupViews() {
     // listeners
     // listitem on click
     $(listView).on('click', 'div.listItem', function (event) {
-        let target =$(event.target);
+        let target = $(event.target);
 
         // check if list item or list item button was clicked
-        if (!target.is('img.img-list-item-button')){
+        if (!target.is('img.img-list-item-button')) {
             // list item clicked
             controllerUtil.handleListItemClicked($(this).data());
         } else {
@@ -63,11 +63,11 @@ function setupViews() {
             let type = data.type;
             let track = data.track;
 
-            if (isAdmin){
+            if (isAdmin) {
                 // TODO handle delete track
             } else {
                 // check if item should be added or removed
-                if (storage.cart.exists(id)){
+                if (storage.cart.exists(id)) {
                     // remove from cart
                     storage.cart.removeTrack(id);
                     // update imge
@@ -83,11 +83,11 @@ function setupViews() {
     });
 
     // fade in list item delete button
-    $(listView).on('mouseenter', 'div.listItem', function (){
+    $(listView).on('mouseenter', 'div.listItem', function () {
         let listButton = $(this).find('img.img-list-item-button');
 
         // check if track is in storage
-        if (storage.cart.exists(listButton.data('id'))){
+        if (storage.cart.exists(listButton.data('id'))) {
             // update img to green
             listButton.attr('src', 'icons/icon-cart-success.svg');
         } else {
@@ -97,7 +97,7 @@ function setupViews() {
     });
 
     // fade out list item delete button
-    $(listView).on('mouseleave', 'div.listItem', function (){
+    $(listView).on('mouseleave', 'div.listItem', function () {
         let listButton = $(this).find('img.img-list-item-button');
         listButton.addClass('gone');
     });
@@ -109,6 +109,21 @@ function setupViews() {
 
     addBtn.on('click', function () {
         // TODO show add dialog here
+
+        switch (getSearchOptionId()) {
+
+            case 'searchTracks':
+                trackModal.show(TrackModalController.MODE_ADD);
+                break;
+
+            case 'searchArtists':
+                fetchArtists(search, page);
+                break;
+
+            case 'searchAlbums':
+                fetchAlbums(search, page);
+                break;
+        }
     });
 
     tracksOptionBtn.on('click', function () {
@@ -223,7 +238,7 @@ function fetchTracks(search = null) {
     let params = {'page': page};
     let mode = null;
 
-    if (isAdmin){
+    if (isAdmin) {
         mode = LIST_ITEM_MODE_DELETE;
     } else {
         mode = LIST_ITEM_MODE_CART_ADD;
@@ -241,7 +256,7 @@ function fetchTracks(search = null) {
             updateList(adapter.getTrackViews(tracks, mode));
         })
         .fail(function (request) {
-
+            errorHandler.handleFail(request);
         });
 }
 
@@ -252,7 +267,7 @@ function fetchArtists(search = null) {
     }
     let mode = null;
 
-    if (isAdmin){
+    if (isAdmin) {
         mode = LIST_ITEM_MODE_DELETE;
     }
 
@@ -262,7 +277,7 @@ function fetchArtists(search = null) {
             updateList(adapter.getArtistViews(artists, mode));
         })
         .fail(function (request) {
-
+            errorHandler.handleFail(request);
         });
 }
 
@@ -273,7 +288,7 @@ function fetchAlbums(search = null) {
     }
     let mode = null;
 
-    if (isAdmin){
+    if (isAdmin) {
         mode = LIST_ITEM_MODE_DELETE;
     }
 
@@ -283,7 +298,7 @@ function fetchAlbums(search = null) {
             updateList(adapter.getAlbumViews(albums, mode));
         })
         .fail(function (request) {
-
+            errorHandler.handleFail(request);
         });
 }
 

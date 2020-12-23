@@ -144,7 +144,6 @@ function signupCustomer(customer) {
 
     api.signupCustomer(customer)
         .done(function (data) {
-            console.log(data);
 
             // remove error message
             updateInfoText(true, '')

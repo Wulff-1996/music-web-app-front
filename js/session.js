@@ -39,11 +39,7 @@ const session = {
         let cookies = document.cookie.split(';');
 
         cookies.forEach(function (cookie) {
-
-            console.log(cookies.length)
-
             let key = cookie.trim().split('=');
-            console.log(key)
             // set expire date to the past
             document.cookie = key[0] + " =; expires = Thu, 01 Jan 1970 00:00:00 UTC; path = ";
         });

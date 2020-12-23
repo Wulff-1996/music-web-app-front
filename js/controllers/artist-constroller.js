@@ -28,7 +28,7 @@ const artistId = controllerUtil.getParam('id');
 $(document).ready(function () {
 
     controllerUtil.checkForSession();
-    controllerUtil.validateQueryParamId(artistId);
+    if (!controllerUtil.validateQueryParamId(artistId)) return;
     controllerUtil.loadHeaderFooter();
 
     // remove views based on auth
@@ -125,7 +125,7 @@ function fetchArtist() {
             albumTotalField.text(data.album_total);
         })
         .fail(function (reqeust) {
-
+            errorHandler.handleFail(reqeust);
         });
 }
 
@@ -141,7 +141,7 @@ function fetchAlbums() {
             updateList(adapter.getAlbumViews(albums));
         })
         .fail(function (request) {
-
+            errorHandler.handleFail(reqeust);
         });
 }
 
@@ -157,7 +157,7 @@ function fetchTracks() {
             updateList(adapter.getTrackViews(tracks));
         })
         .fail(function (requst) {
-
+            errorHandler.handleFail(reqeust);
         });
 }
 

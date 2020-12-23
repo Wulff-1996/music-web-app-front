@@ -1,10 +1,6 @@
-class Track
-{
-    /**
-     * track constructor.
-     */
-    construct(id, title, albumId, mediaTypeId, genreId, composer, milliseconds, bytes, price)
-    {
+class Track {
+
+    constructor(id, title, albumId, mediaTypeId, genreId, composer, milliseconds, bytes, price) {
         this.id = id;
         this.title = title;
         this.albumId = albumId;

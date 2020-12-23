@@ -11,7 +11,11 @@
 <div id="trackModalBackground" class="modal-background">
     <div id="trackModal" class="trackmodal horizontal-center center">
 
-        <h3 class="vertial-center height-fill">Track</h3>
+        <div class="flex">
+            <h3 id="trackModalHeader" class="vertial-center width-fill height-fill">Track</h3>
+            <img id="trackModalCloseBtn" src="icons/icon-close.svg"
+                 class="icon-small marginleft padding-small img-button pointer with-fit"/>
+        </div>
 
         <div class="margintop flex">
 
@@ -32,7 +36,7 @@
                 <div class="width-fill margintop">
                     <label class="input-header marginleft">Album</label>
                     <input id="trackModalAlbumField" placeholder="album" type="text"
-                           class="input margintop" maxlength="160" required>
+                           class="input margintop" maxlength="160">
                     <div id="trackModalAlbumDropDown" class="dropdown margintop">
                         <ul id="trackModalAlbumList"></ul>
                         <div class="horizontal-divider marginleft marginright margintop"></div>
@@ -87,7 +91,7 @@
                 <div class="width-fill margintop">
                     <label class="input-header marginleft">Milliseconds</label>
                     <input id="trackModalMillisecondsField" placeholder="milliseconds" type="number"
-                           class="input margintop" min="0" step="1">
+                           class="input margintop" min="0" step="1" required>
                 </div>
 
                 <div class="width-fill margintop">
@@ -98,16 +102,25 @@
 
             </div>
         </div>
+
+        <div class="flex-center margintop-big">
+
+            <button id="trackModalSaveBtn" class="button pointer modalButton">Save</button>
+
+        </div>
     </div>
 </div>
 
 
 </body>
-<script type="text/javascript" src="js/utl/controller-util.js"></script>
-<script type="text/javascript" src="js/session.js"></script>
+
 <script type="text/javascript" src="js/api.js"></script>
+<script type="text/javascript" src="js/session.js"></script>
+<script type="text/javascript" src="js/utl/error-handler.js"></script>
+<script type="text/javascript" src="js/utl/controller-util.js"></script>
 <script type="text/javascript" src="js/entities/track.js"></script>
 <script type="text/javascript" src="js/adapters/adapter.js"></script>
 <script type="text/javascript" src="js/controllers/track-modal-controller.js"></script>
+<script type="text/javascript" src="js/test.js"></script>
 
 </html>

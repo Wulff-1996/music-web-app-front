@@ -18,6 +18,9 @@ const list = $('#tracksList');
 let tracks = storage.cart.getTracks();
 const customer = storage.user.get();
 
+// events
+const EVENT_ADMIN_ENTERED = 'EVENT_ADMIN_ENTERED';
+
 $(document).ready(function () {
 
     controllerUtil.checkForSession();
@@ -29,7 +32,7 @@ $(document).ready(function () {
         controllerUtil.alertDialog.show(
             'No Allowed',
             'You need to be logged in as an customer to access this page. You will be redirected to the home page.',
-            ALERT_MODE_ERROR_UNAUTHORIZED
+            EVENT_ADMIN_ENTERED
         );
     }
 
@@ -76,7 +79,6 @@ function getTotal() {
 }
 
 function updateTotal() {
-    console.log(getTotal())
     let total = Math.round((getTotal() + Number.EPSILON) * 100) / 100;
     totalPriceField.text(total);
 }
@@ -124,13 +126,9 @@ function setupViews() {
 
         // check mode
         switch (mode) {
-            case ALERT_MODE_ERROR_NOT_FOUND:
+            case EVENT_ADMIN_ENTERED:
                 // direct to home
                 controllerUtil.redirector.toHome();
-                break;
-
-            case ALERT_MODE_ERROR_UNAUTHORIZED:
-                controllerUtil.redirector.toLogin();
                 break;
         }
     });
@@ -179,8 +177,7 @@ function postOrder(data) {
             // show alert dialog success
             controllerUtil.alertDialog.show(
                 'Oder Placed',
-                'The order has successfully been completed and the tracks can now be accessed from your library.',
-                ALERT_MODE_SUCCESS
+                'The order has successfully been completed and the tracks can now be accessed from your library.'
             );
 
             // clear cart
@@ -193,9 +190,7 @@ function postOrder(data) {
             list.empty();
         })
         .fail(function (request) {
-            if (request){
-                console.log(request)
-            }
+            errorHandler.handleFail(request);
         });
 }
 
