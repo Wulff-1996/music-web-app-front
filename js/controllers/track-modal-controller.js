@@ -1,7 +1,5 @@
 'use strict';
 
-let _this;
-
 class TrackModalController {
     // buttons
     closeBtn = $('#trackModalCloseBtn');
@@ -82,7 +80,6 @@ class TrackModalController {
     isValidBytes = true;
 
     constructor(mode, delegate = null, track = null) {
-        _this = this;
         this.track = track;
         this.mode = mode;
         this.delegate = delegate;
@@ -118,50 +115,52 @@ class TrackModalController {
     }
 
     show() {
+        let self = this;
+        
         // load html and bind views to intance
         $('#trackModalContainer').load('trackmodal.html #trackModalBackground', function () {
             // bind views
 
-            _this.header = $('#trackModalHeader');
+            self.header = $('#trackModalHeader');
             // buttons
-            _this.saveBtn = $('#trackModalSaveBtn');
-            _this.closeBtn = $('#trackModalCloseBtn');
+            self.saveBtn = $('#trackModalSaveBtn');
+            self.closeBtn = $('#trackModalCloseBtn');
 
             // drop downs
-            _this.albumDropDown = $('#trackModalAlbumDropDown');
-            _this.genreDropDown = $('#trackModalGenreDropDown');
-            _this.mediaDropDown = $('#trackModalMediaDropDown');
+            self.albumDropDown = $('#trackModalAlbumDropDown');
+            self.genreDropDown = $('#trackModalGenreDropDown');
+            self.mediaDropDown = $('#trackModalMediaDropDown');
 
             // lists
-            _this.albumList = $('#trackModalAlbumList');
-            _this.genreList = $('#trackModalGenreList');
-            _this.mediaList = $('#trackModalMediaList');
+            self.albumList = $('#trackModalAlbumList');
+            self.genreList = $('#trackModalGenreList');
+            self.mediaList = $('#trackModalMediaList');
 
             // views
-            _this.titleField = $('#trackModalTitleField');
-            _this.priceField = $('#trackModalPriceField');
-            _this.albumField = $('#trackModalAlbumField');
-            _this.composerField = $('#trackModalComposerField');
-            _this.genreField = $('#trackModalGenreField');
-            _this.mediaField = $('#trackModalMediaField');
-            _this.millisecondsField = $('#trackModalMillisecondsField');
-            _this.bytesField = $('#trackModalBytesField');
+            self.titleField = $('#trackModalTitleField');
+            self.priceField = $('#trackModalPriceField');
+            self.albumField = $('#trackModalAlbumField');
+            self.composerField = $('#trackModalComposerField');
+            self.genreField = $('#trackModalGenreField');
+            self.mediaField = $('#trackModalMediaField');
+            self.millisecondsField = $('#trackModalMillisecondsField');
+            self.bytesField = $('#trackModalBytesField');
 
-            _this.albumPageField = $('#trackModalAlbumPageField');
-            _this.genrePageField = $('#trackModalGenrePageField');
-            _this.mediaPageField = $('#trackModalMediaPageField');
+            self.albumPageField = $('#trackModalAlbumPageField');
+            self.genrePageField = $('#trackModalGenrePageField');
+            self.mediaPageField = $('#trackModalMediaPageField');
 
-            switch (_this.mode) {
+            switch (self.mode) {
                 case TrackModalController.MODE_EDIT:
-                    _this.header.text('Edit Track');
-                    _this.populateView();
+                    self.header.text('Edit Track');
+                    self.populateView();
                     break;
 
                 case TrackModalController.MODE_ADD:
-                    _this.header.text('Add Track');
+                    self.header.text('Add Track');
                     break;
             }
-            _this.setupViews();
+            self.setupViews();
         });
     }
 
@@ -177,46 +176,48 @@ class TrackModalController {
     }
 
     setupViews() {
+        let self = this;
+        
         // listeners
         // buttons
         this.saveBtn.on('click', function () {
-            _this.validateInputs();
-            _this.updateAllInputFields();
+            self.validateInputs();
+            self.updateAllInputFields();
 
-            if (_this.isInputsValid()) {
+            if (self.isInputsValid()) {
 
-                let milliseconds = controllerUtil.valueOrNull(_this.millisecondsField.val());
+                let milliseconds = controllerUtil.valueOrNull(self.millisecondsField.val());
                 milliseconds = (milliseconds) ? parseInt(milliseconds) : null;
 
-                let bytes = controllerUtil.valueOrNull(_this.bytesField.val());
+                let bytes = controllerUtil.valueOrNull(self.bytesField.val());
                 bytes = (bytes) ? parseInt(bytes) : null;
 
                 // get customer info
                 let track = {
-                    'name': _this.titleField.val(),
-                    'unit_price': _this.priceField.val(),
-                    'composer': controllerUtil.valueOrNull(_this.composerField.val()),
+                    'name': self.titleField.val(),
+                    'unit_price': self.priceField.val(),
+                    'composer': controllerUtil.valueOrNull(self.composerField.val()),
                     'milliseconds': milliseconds,
                     'bytes': bytes,
-                    'album_id': _this.editTrack.albumId,
-                    'genre_id': _this.editTrack.genreId,
-                    'media_type_id': _this.editTrack.mediaTypeId
+                    'album_id': self.editTrack.albumId,
+                    'genre_id': self.editTrack.genreId,
+                    'media_type_id': self.editTrack.mediaTypeId
                 }
 
-                switch (_this.mode) {
+                switch (self.mode) {
                     case TrackModalController.MODE_EDIT:
-                        _this.updateTrack(track);
+                        self.updateTrack(track);
                         break;
 
                     case TrackModalController.MODE_ADD:
-                        _this.addTrack(track)
+                        self.addTrack(track)
                         break;
                 }
             }
         });
 
         this.closeBtn.on('click', function () {
-            _this.dismiss();
+            self.dismiss();
         });
 
         // alert modal button
@@ -232,122 +233,122 @@ class TrackModalController {
         // dropdown from input
         this.albumField.keyup(function () {
             // update flag and input field UI
-            _this.isValidAlbum = _this.validateAlbum();
-            _this.updateInputField(_this.albumField, _this.isValidAlbum);
+            self.isValidAlbum = self.validateAlbum();
+            self.updateInputField(self.albumField, self.isValidAlbum);
 
             // update data
-            _this.editTrack.albumId = null;
+            self.editTrack.albumId = null;
 
             // get search
-            let search = _this.albumField.val();
-            _this.searchMode = _this.SEARCH_MODE_ALBUM;
+            let search = self.albumField.val();
+            self.searchMode = self.SEARCH_MODE_ALBUM;
 
             // show dropdown if not visible
-            _this.showDropDown();
+            self.showDropDown();
 
             // fetch data
-            _this.fetchAlbums(search);
+            self.fetchAlbums(search);
         });
 
         this.genreField.keyup(function () {
             // update flag and input field UI
-            _this.isValidGenre = _this.validateGenre();
-            _this.updateInputField(_this.genreField, _this.isValidGenre);
+            self.isValidGenre = self.validateGenre();
+            self.updateInputField(self.genreField, self.isValidGenre);
 
             // update data
-            _this.editTrack.genreId = null;
+            self.editTrack.genreId = null;
 
             // get search
-            let search = _this.genreField.val();
-            _this.searchMode = _this.SEARCH_MODE_GENRE;
+            let search = self.genreField.val();
+            self.searchMode = self.SEARCH_MODE_GENRE;
 
             // show dropdown if not visible
-            _this.showDropDown();
+            self.showDropDown();
 
             // fetch data
-            _this.fetchGenres(search);
+            self.fetchGenres(search);
         });
 
         this.mediaField.keyup(function () {
             // update flag and input field UI
-            _this.isValidMedia = _this.validateMedia();
-            _this.updateInputField(_this.mediaField, _this.isValidMedia);
+            self.isValidMedia = self.validateMedia();
+            self.updateInputField(self.mediaField, self.isValidMedia);
 
             // update data
-            _this.editTrack.mediaTypeId = null;
+            self.editTrack.mediaTypeId = null;
 
             // get search
-            let search = _this.mediaField.val();
-            _this.searchMode = _this.SEARCH_MODE_MEDIA;
+            let search = self.mediaField.val();
+            self.searchMode = self.SEARCH_MODE_MEDIA;
 
             // show dropdown if not visible
-            _this.showDropDown();
+            self.showDropDown();
 
             // fetch data
-            _this.fetchMedia(search);
+            self.fetchMedia(search);
         });
 
         this.albumField.on('click', function (e) {
             e.stopPropagation();
-            let search = _this.albumField.val();
-            _this.searchMode = _this.SEARCH_MODE_ALBUM;
+            let search = self.albumField.val();
+            self.searchMode = self.SEARCH_MODE_ALBUM;
 
             // show dropdown if not visible
-            _this.showDropDown();
+            self.showDropDown();
 
             // fetch data
-            _this.fetchAlbums(search);
+            self.fetchAlbums(search);
         });
 
         this.genreField.on('click', function (e) {
             e.stopPropagation();
 
-            let search = _this.genreField.val();
-            _this.searchMode = _this.SEARCH_MODE_GENRE;
+            let search = self.genreField.val();
+            self.searchMode = self.SEARCH_MODE_GENRE;
 
             // show dropdown if not visible
-            _this.showDropDown();
+            self.showDropDown();
 
             // fetch data
-            _this.fetchGenres(search);
+            self.fetchGenres(search);
         });
 
         this.mediaField.on('click', function (e) {
             e.stopPropagation();
 
-            let search = _this.mediaField.val();
-            _this.searchMode = _this.SEARCH_MODE_MEDIA;
+            let search = self.mediaField.val();
+            self.searchMode = self.SEARCH_MODE_MEDIA;
 
             // show dropdown if not visible
-            _this.showDropDown();
+            self.showDropDown();
 
             // fetch data
-            _this.fetchMedia(search);
+            self.fetchMedia(search);
         });
 
         this.titleField.keyup(function (){
-            _this.isValidTitle = _this.validateInput(_this.titleField);
-            _this.updateInputField(_this.titleField, _this.isValidTitle);
+            self.isValidTitle = self.validateInput(self.titleField);
+            self.updateInputField(self.titleField, self.isValidTitle);
         });
 
         this.priceField.keyup(function (){
-            _this.isValidPrice = _this.validateInput(_this.priceField);
-            _this.updateInputField(_this.priceField, _this.isValidPrice);
+            self.isValidPrice = self.validateInput(self.priceField);
+            self.updateInputField(self.priceField, self.isValidPrice);
         });
 
         this.composerField.keyup(function (){
-            _this.isValidComposer = _this.validateInput(_this.composerField);
-            _this.updateInputField(_this.composerField, _this.isValidComposer);
+            self.isValidComposer = self.validateInput(self.composerField);
+            self.updateInputField(self.composerField, self.isValidComposer);
         });
 
         this.millisecondsField.keyup(function (){
-            _this.isValidMilliseconds = _this.validateInput(_this.millisecondsField);
-            _this.updateInputField(_this.millisecondsField, _this.isValidMilliseconds);
+            self.isValidMilliseconds = self.validateInput(self.millisecondsField);
+            self.updateInputField(self.millisecondsField, self.isValidMilliseconds);
         });
 
         this.bytesField.keyup(function (){
-            _this.isValidBytes = _this.validateInput(_this.bytesField);
-            _this.updateInputField(_this.bytesField, _this.isValidBytes);
+            self.isValidBytes = self.validateInput(self.bytesField);
+            self.updateInputField(self.bytesField, self.isValidBytes);
         });
 
 
@@ -355,13 +356,13 @@ class TrackModalController {
         $('#trackModalBackground').on('click', function (event) {
 
             // hide dropdown if outside dropdown
-            if (!_this.albumDropDown.is(event.target) &&
-                _this.albumDropDown.has(event.target).length === 0 &&
-                !_this.genreDropDown.is(event.target) &&
-                _this.genreDropDown.has(event.target).length === 0 &&
-                !_this.mediaDropDown.is(event.target) &&
-                _this.mediaDropDown.has(event.target).length === 0) {
-                _this.hideDropDown()
+            if (!self.albumDropDown.is(event.target) &&
+                self.albumDropDown.has(event.target).length === 0 &&
+                !self.genreDropDown.is(event.target) &&
+                self.genreDropDown.has(event.target).length === 0 &&
+                !self.mediaDropDown.is(event.target) &&
+                self.mediaDropDown.has(event.target).length === 0) {
+                self.hideDropDown()
             }
         });
 
@@ -373,38 +374,38 @@ class TrackModalController {
             let title = target.data('title');
 
             switch (type) {
-                case _this.TYPE_ALBUM:
-                    _this.editTrack.albumId = id;
-                    _this.albumField.val(title);
-                    _this.isValidAlbum = true;
-                    _this.updateInputField(_this.albumField, _this.isValidAlbum);
-                    _this.hideDropDown();
+                case self.TYPE_ALBUM:
+                    self.editTrack.albumId = id;
+                    self.albumField.val(title);
+                    self.isValidAlbum = true;
+                    self.updateInputField(self.albumField, self.isValidAlbum);
+                    self.hideDropDown();
                     break;
 
-                case _this.TYPE_GENRE:
-                    _this.editTrack.genreId = id;
-                    _this.genreField.val(title);
-                    _this.isValidGenre = true;
-                    _this.updateInputField(_this.genreField, _this.isValidGenre);
-                    _this.hideDropDown();
+                case self.TYPE_GENRE:
+                    self.editTrack.genreId = id;
+                    self.genreField.val(title);
+                    self.isValidGenre = true;
+                    self.updateInputField(self.genreField, self.isValidGenre);
+                    self.hideDropDown();
                     break;
 
-                case _this.TYPE_MEDIA:
-                    _this.editTrack.mediaTypeId = id;
-                    _this.mediaField.val(title);
-                    _this.isValidMedia = true;
-                    _this.updateInputField(_this.mediaField, _this.isValidMedia);
-                    _this.hideDropDown();
+                case self.TYPE_MEDIA:
+                    self.editTrack.mediaTypeId = id;
+                    self.mediaField.val(title);
+                    self.isValidMedia = true;
+                    self.updateInputField(self.mediaField, self.isValidMedia);
+                    self.hideDropDown();
                     break;
             }
         });
 
         // pagination
         $('img.trackModalPreviousPage').on('click', function () {
-            if (_this.trackModalPage > 0) {
-                _this.trackModalPage--;
-                _this.notifyPageChanged();
-                _this.handleSearch();
+            if (self.trackModalPage > 0) {
+                self.trackModalPage--;
+                self.notifyPageChanged();
+                self.handleSearch();
             }
         });
 
@@ -412,9 +413,9 @@ class TrackModalController {
             let isDisabled = $(this).attr('disabled');
             // null means it does not have disabled
             if (isDisabled == null) {
-                _this.trackModalPage++;
-                _this.notifyPageChanged();
-                _this.handleSearch();
+                self.trackModalPage++;
+                self.notifyPageChanged();
+                self.handleSearch();
             }
         });
     }
@@ -473,6 +474,7 @@ class TrackModalController {
     }
 
     populateList(list, type) {
+        let self = this;
         let views = [];
         let listView = null;
 
@@ -495,24 +497,24 @@ class TrackModalController {
             let item = $('<p/>', {'class': 'margin-normal pointer dropdownchild'});
 
             switch (type) {
-                case _this.TYPE_ALBUM:
+                case self.TYPE_ALBUM:
                     item.text(element.title);
                     item.data('id', element.id);
-                    item.data('type', _this.TYPE_ALBUM);
+                    item.data('type', self.TYPE_ALBUM);
                     item.data('title', element.title);
                     break;
 
-                case _this.TYPE_GENRE:
+                case self.TYPE_GENRE:
                     item.text(element.name);
                     item.data('id', element.id);
-                    item.data('type', _this.TYPE_GENRE);
+                    item.data('type', self.TYPE_GENRE);
                     item.data('title', element.name);
                     break;
 
-                case _this.TYPE_MEDIA:
+                case self.TYPE_MEDIA:
                     item.text(element.name);
                     item.data('id', element.id);
-                    item.data('type', _this.TYPE_MEDIA);
+                    item.data('type', self.TYPE_MEDIA);
                     item.data('title', element.name);
                     break;
             }
@@ -600,6 +602,7 @@ class TrackModalController {
 
     // requests
     fetchAlbums(search) {
+        let self = this;
         let params = {
             'title': search,
             'count': this.RESULT_COUNT,
@@ -608,8 +611,8 @@ class TrackModalController {
 
         api.getAlbums(params)
             .done(function (data) {
-                _this.enableNextPage(data.albums.length == 5);
-                _this.populateList(data.albums, _this.TYPE_ALBUM);
+                self.enableNextPage(data.albums.length == 5);
+                self.populateList(data.albums, self.TYPE_ALBUM);
             })
             .fail(function (request) {
                 errorHandler.handleFail(request);
@@ -617,6 +620,7 @@ class TrackModalController {
     }
 
     fetchGenres(search) {
+        let self = this;
         let params = {
             'search': search,
             'page': this.trackModalPage
@@ -624,8 +628,8 @@ class TrackModalController {
 
         api.getGenres(params)
             .done(function (data) {
-                _this.enableNextPage(data.genres.length == 5);
-                _this.populateList(data.genres, _this.TYPE_GENRE);
+                self.enableNextPage(data.genres.length == 5);
+                self.populateList(data.genres, self.TYPE_GENRE);
             })
             .fail(function (request) {
                 errorHandler.handleFail(request);
@@ -633,6 +637,7 @@ class TrackModalController {
     }
 
     fetchMedia(search) {
+        let self = this;
         let params = {
             'search': search,
             'page': this.trackModalPage
@@ -640,8 +645,8 @@ class TrackModalController {
 
         api.getMedia(params)
             .done(function (data) {
-                _this.enableNextPage(data.media.length == 5);
-                _this.populateList(data.media, _this.TYPE_MEDIA);
+                self.enableNextPage(data.media.length == 5);
+                self.populateList(data.media, self.TYPE_MEDIA);
             })
             .fail(function (request) {
                 errorHandler.handleFail(request);
@@ -649,14 +654,15 @@ class TrackModalController {
     }
 
     updateTrack(track) {
+        let self = this;
         let id = this.track.id
 
         api.updateTrack(id, track)
             .done(function (data) {
-                if (_this.delegate){
-                    _this.delegate.onTrackUpdated(data);
+                if (self.delegate){
+                    self.delegate.onTrackUpdated(data);
                 }
-                _this.dismiss();
+                self.dismiss();
                 controllerUtil.alertDialog.show(
                     'Track Updated',
                     'The track has been successfully updated',
@@ -669,12 +675,13 @@ class TrackModalController {
     }
 
     addTrack(track) {
+        let self = this;
         api.addTrack(track)
             .done(function (data) {
-                if (_this.delegate){
-                    _this.delegate.onTrackAdded(data);
+                if (self.delegate){
+                    self.delegate.onTrackAdded(data);
                 }
-                _this.dismiss();
+                self.dismiss();
                 controllerUtil.alertDialog.show(
                     'Track Added',
                     'Track has been successfully added.',
@@ -686,7 +693,6 @@ class TrackModalController {
             })
     }
 }
-
 
 const trackModal = {
     show(mode, delegate = null, track = null) {
