@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <title>Title</title>
+</head>
+<body>
+
+<div id="albumModalBackground" class="modal-background">
+
+    <div id="albumModal" class="albummodal horizontal-center center">
+
+        <div class="flex">
+            <h3 id="albumModalHeader" class="vertial-center width-fill height-fill">Album</h3>
+            <img id="albumModalCloseBtn" src="icons/icon-close.svg"
+                 class="icon-small marginleft padding-small img-button pointer with-fit"/>
+        </div>
+
+        <div class="margintop">
+
+            <div class="width-fill">
+                <label class="input-header marginleft">Title</label>
+                <input id="albumModalTitleField" placeholder="title" type="text" class="input margintop"
+                       maxlength="200" required>
+            </div>
+
+            <div class="width-fill margintop">
+                <label class="input-header marginleft">Artist</label>
+                <input id="albumModalArtistField" placeholder="artist" type="text"
+                       class="input margintop" maxlength="120" required>
+                <div id="albumModalArtistDropDown" class="dropdown margintop">
+                    <ul id="albumModalArtistList"></ul>
+                    <div class="horizontal-divider marginleft marginright margintop"></div>
+                    <div class="flex-center">
+                        <img src="icons/icon-arrow-left.svg" class="pagination pointer albumModalPreviousPage"/>
+                        <h5 id="albumModalArtistPageField" class="pointer">1</h5>
+                        <img src="icons/icon-arrow-right.svg" class="pagination pointer albumModalNextPage"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-center margintop-big">
+
+            <button id="albumModalSaveBtn" class="button pointer modalButton">Save</button>
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+<script type="text/javascript" src="js/api.js"></script>
+<script type="text/javascript" src="js/session.js"></script>
+<script type="text/javascript" src="js/utl/error-handler.js"></script>
+<script type="text/javascript" src="js/utl/controller-util.js"></script>
+<script type="text/javascript" src="js/entities/album.js"></script>
+<script type="text/javascript" src="js/adapters/adapter.js"></script>
+<script type="text/javascript" src="js/controllers/album-modal-controller.js"></script>
+
+</html>

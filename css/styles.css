@@ -250,6 +250,15 @@ div.trackmodal {
     padding: 20px;
 }
 
+div.albummodal {
+    width: 400px;
+    background-color: var(--secondary-background);
+    height: fit-content;
+    border-radius: 10px;
+    border: 1px solid var(--item-border);
+    padding: 20px;
+}
+
 div.dropdown {
     z-index: 1;
     display: none;

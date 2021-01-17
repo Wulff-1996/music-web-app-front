@@ -352,7 +352,7 @@ class TrackModalController {
 
 
         // document listeners
-        $(document).on('click', function (event) {
+        $('#trackModalBackground').on('click', function (event) {
 
             // hide dropdown if outside dropdown
             if (!_this.albumDropDown.is(event.target) &&

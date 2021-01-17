@@ -126,5 +126,11 @@ const api = {
     },
     deleteTrack(id){
         return http.delete('tracks/' + id);
+    },
+    updateAlbum(id, album){
+        return http.put('albums/' + id, album);
+    },
+    addAlbum(album){
+        return http.post('albums', album)
     }
 }

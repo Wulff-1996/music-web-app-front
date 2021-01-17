@@ -117,11 +117,10 @@ function setupViews() {
                 break;
 
             case 'searchArtists':
-                fetchArtists(search, page);
                 break;
 
             case 'searchAlbums':
-                fetchAlbums(search, page);
+                albumModal.show(AlbumModalController.MODE_ADD);
                 break;
         }
     });
