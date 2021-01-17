@@ -41,7 +41,7 @@ const http = {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            data: JSON.stringify(data)
         });
     },
     patch: function (url, data = null) {
@@ -53,7 +53,7 @@ const http = {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            data: JSON.stringify(data)
         });
     },
     delete: function (url) {

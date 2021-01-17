@@ -17,8 +17,27 @@ const nextBtn = $('#nextPageField');
 // list
 const list = $('#tracksList');
 
+// delegates
+const albumDelegate = {
+    onAlbumUpdated(data){
+        album = data;
+        populateView();
+    },
+    onAlbumAdded(album){
+        // dont implement
+    }
+}
+
+const trackDelegate = {
+    onTrackAdded(){
+        // fetch tracks
+        fetchTracks();
+    }
+}
+
 // fields
 const albumId = controllerUtil.getParam('id');
+let album = null;
 let page = 0;
 
 $(document).ready(function () {
@@ -55,7 +74,10 @@ function setupViews() {
 
     // admin modify album buttons
     editBtn.on('click', function (){
-        // TODO implement
+        if (album){
+            // show modal if album exists and is fetched
+            albumModal.show(AlbumModalController.MODE_EDIT, albumDelegate, album);
+        }
     });
 
     deleteBtn.on('click', function (){
@@ -63,7 +85,10 @@ function setupViews() {
     });
 
     addBtn.on('click', function (){
-        // TODO implement
+        if (album){
+            // show modal if album exists and is fetched
+            trackModal.show({mode: TrackModalController.MODE_ADD_ALBUM_LOCKED, delegate: trackDelegate, track: null, album: album});
+        }
     });
 
     // pagination
@@ -86,14 +111,19 @@ function setupViews() {
     });
 }
 
+function populateView(){
+    albumNameField.text(album.title);
+    artistNameField.text(album.artist.name);
+    artistNameField.data('id', album.artist.id);
+    trackTotalField.text(album.track_total);
+}
+
 //////  requests //////////////
 function fetchAlbum() {
     api.getAlbumsById(albumId)
         .done(function (data) {
-            albumNameField.text(data.title);
-            artistNameField.text(data.artist.name);
-            artistNameField.data('id', data.artist.id);
-            trackTotalField.text(data.track_total);
+            album = data;
+            populateView();
         })
         .fail(function (request) {
             errorHandler.handleFail(request);

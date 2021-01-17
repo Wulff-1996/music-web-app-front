@@ -35,6 +35,7 @@ class TrackModalController {
     RESULT_COUNT = 5;
     track = null; // ? this is a json track (needed to store both title and ids of ex album)
     editTrack = new Track(); // this is a class
+    album = null; // ? album in the case of adding a track to an predefined album
     searchMode = null;
 
     SEARCH_MODE_ALBUM = 'SEARCH_MODE_ALBUM';
@@ -60,6 +61,11 @@ class TrackModalController {
         return 'MODE_ADD'
     };
 
+    // mode for adding a track to an album
+    static get MODE_ADD_ALBUM_LOCKED(){
+        return 'MODE_ADD_ALBUM_LOCKED'
+    }
+
     // events
     static get EVENT_TRACK_UPDATED() {
         return 'EVENT_TRACK_UPDATED'
@@ -79,34 +85,51 @@ class TrackModalController {
     isValidMilliseconds = true;
     isValidBytes = true;
 
-    constructor(mode, delegate = null, track = null) {
+    constructor(mode, delegate = null, track = null, album = null) {
         this.track = track;
+        this.album = album;
         this.mode = mode;
         this.delegate = delegate;
 
-        if (mode === TrackModalController.MODE_EDIT) {
-            if (this.track == null) {
-                throw 'Error: track needed for MODE_EDIT.';
-            }
+        switch (mode) {
+            case TrackModalController.MODE_EDIT:
+                if (this.track == null) {
+                    throw 'Error: track needed for MODE_EDIT.';
+                }
 
-            // parse values from json track to class Track named editTrack
-            this.editTrack = new Track(
-                null,
-                this.track.title,
-                this.track.album.id,
-                this.track.media.id,
-                this.track.genre.id,
-                this.track.composer,
-                this.track.milliseconds,
-                this.track.bytes,
-                this.track.unit_price
-            );
-        } else {
-            // update flags
-            this.isValidTitle = false;
-            this.isValidPrice = false;
-            this.isValidMilliseconds = false;
-            this.isValidMedia = false;
+                // parse values from json track to class Track named editTrack
+                this.editTrack = new Track(
+                    null,
+                    this.track.title,
+                    this.track.album.id,
+                    this.track.media.id,
+                    this.track.genre.id,
+                    this.track.composer,
+                    this.track.milliseconds,
+                    this.track.bytes,
+                    this.track.unit_price
+                );
+                break;
+
+            case TrackModalController.MODE_ADD_ALBUM_LOCKED:
+                if (this.album == null) {
+                    throw 'Error: album needed for MODE_ADD_ALBUM_LOCKED.';
+                }
+
+                // update flags
+                this.isValidTitle = false;
+                this.isValidPrice = false;
+                this.isValidMilliseconds = false;
+                this.isValidMedia = false;
+                break;
+
+            case TrackModalController.MODE_ADD:
+                // update flags
+                this.isValidTitle = false;
+                this.isValidPrice = false;
+                this.isValidMilliseconds = false;
+                this.isValidMedia = false;
+                break;
         }
     }
 
@@ -156,6 +179,14 @@ class TrackModalController {
                     self.populateView();
                     break;
 
+                case TrackModalController.MODE_ADD_ALBUM_LOCKED:
+                    self.header.text('Add Track');
+                    self.albumField.val(self.album.title);
+
+                    // set field to disabled, cannot change album in this case
+                    self.albumField.attr("disabled","disabled")
+                    break;
+
                 case TrackModalController.MODE_ADD:
                     self.header.text('Add Track');
                     break;
@@ -192,6 +223,10 @@ class TrackModalController {
                 let bytes = controllerUtil.valueOrNull(self.bytesField.val());
                 bytes = (bytes) ? parseInt(bytes) : null;
 
+                let albumId = (self.mode === TrackModalController.MODE_ADD_ALBUM_LOCKED)
+                    ? self.album.id
+                    : self.editTrack.albumId;
+
                 // get customer info
                 let track = {
                     'name': self.titleField.val(),
@@ -199,7 +234,7 @@ class TrackModalController {
                     'composer': controllerUtil.valueOrNull(self.composerField.val()),
                     'milliseconds': milliseconds,
                     'bytes': bytes,
-                    'album_id': self.editTrack.albumId,
+                    'album_id': albumId,
                     'genre_id': self.editTrack.genreId,
                     'media_type_id': self.editTrack.mediaTypeId
                 }
@@ -209,6 +244,7 @@ class TrackModalController {
                         self.updateTrack(track);
                         break;
 
+                    case TrackModalController.MODE_ADD_ALBUM_LOCKED:
                     case TrackModalController.MODE_ADD:
                         self.addTrack(track)
                         break;
@@ -588,6 +624,10 @@ class TrackModalController {
     }
 
     validateAlbum() {
+        if (this.mode === TrackModalController.MODE_ADD_ALBUM_LOCKED){
+            return true;
+        }
+
         let albumValue = controllerUtil.valueOrNull(this.albumField.val());
         return (this.editTrack.albumId == null && albumValue == null ||
             this.editTrack.albumId != null && albumValue != null) ? true : false;
@@ -695,8 +735,8 @@ class TrackModalController {
 }
 
 const trackModal = {
-    show(mode, delegate = null, track = null) {
-        this.trackModalController = new TrackModalController(mode, delegate, track);
+    show({mode, delegate = null, track = null, album = null}) {
+        this.trackModalController = new TrackModalController(mode, delegate, track, album);
         this.trackModalController.show();
     },
     dissmiss() {

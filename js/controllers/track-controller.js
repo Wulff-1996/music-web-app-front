@@ -34,8 +34,7 @@ let trackModalDelegate = {
         populateView();
     },
     onTrackAdded(data){
-        console.log('track added')
-        console.log(data);
+        // dont implement
     }
 }
 

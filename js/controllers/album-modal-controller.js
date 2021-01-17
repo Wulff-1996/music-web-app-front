@@ -115,7 +115,7 @@ class AlbumModalController {
             switch (self.mode) {
                 case AlbumModalController.MODE_EDIT:
                     self.header.text('Edit Album');
-                    self.populateView();
+                    self.populateViews();
                     break;
 
                 case AlbumModalController.MODE_ADD:
@@ -283,8 +283,7 @@ class AlbumModalController {
 
     validateArtist() {
         let artistValue = controllerUtil.valueOrNull(this.artistField.val());
-        return (this.editAlbum.artistId == null && artistValue == null ||
-            this.editAlbum.artistId != null && artistValue != null) ? true : false;
+        return (this.editAlbum.artistId != null && artistValue != null) ? true : false;
     }
 
 
@@ -413,3 +412,4 @@ const albumModal = {
         this.albumModalController.dismiss();
     }
 }
+

@@ -84,6 +84,8 @@ function setupViews() {
 
     // fade in list item delete button
     $(listView).on('mouseenter', 'div.listItem', function () {
+        if(isAdmin) return;
+
         let listButton = $(this).find('img.img-list-item-button');
 
         // check if track is in storage
