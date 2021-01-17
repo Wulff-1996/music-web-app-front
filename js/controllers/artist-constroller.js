@@ -21,9 +21,35 @@ const list = $('#aristResultList');
 // flags
 const isAdmin = session.isAdmin();
 
+// search options
+const SEARCH_OPTION_ALBUMS = 'SEARCH_OPTION_ALBUMS';
+const SEARCH_OPTION_TRACKS = 'SEARCH_OPTION_TRACKS';
+
+// events
+const EVENT_DELETE = 'EVENT_DELETE';
+const EVENT_DELETE_SUCCESS = 'EVENT_DELETE_SUCCESS';
+
+// delegates
+const artistDelegate = {
+    onArtistUpdated(data) {
+        artist = data;
+        populateView();
+    }
+}
+
+const albumDelegate = {
+    onAlbumAdded(album) {
+        if (search === SEARCH_OPTION_ALBUMS) {
+            fetchAlbums();
+        }
+    }
+}
+
 // fields
 let page = 0;
 const artistId = controllerUtil.getParam('id');
+let artist = null;
+let search = SEARCH_OPTION_ALBUMS;
 
 $(document).ready(function () {
 
@@ -52,19 +78,28 @@ function setupViews() {
     });
 
     editBtn.on('click', function () {
-        // TODO implement edit
+        artistModal.show(ArtistModalController.MODE_EDIT, artistDelegate, artist);
     });
 
     deleteBtn.on('click', function () {
-        // TODO implement delete
+        controllerUtil.alertDialog.show(
+            'Delete Artist',
+            'Are you sure you want to delete this artist? This action cannot be undone.',
+            EVENT_DELETE,
+            {
+                ALERT_HAS_CANCEL: true,
+                ALERT_ACTION_TEXT: 'Delete'
+            }
+        );
     });
 
     addBtn.on('click', function () {
-        // TODO implment add
+        albumModal.show(AlbumModalController.MODE_ADD_ARTIST_LOCKED, albumDelegate, null, artist);
     });
 
     searchAlbumsBtn.on('click', function () {
         page = 0;
+        search = SEARCH_OPTION_ALBUMS;
         notifyPageChanged();
         fetchAlbums();
         updateSearchOption(searchAlbumsBtn);
@@ -72,9 +107,34 @@ function setupViews() {
 
     searchTracksBtn.on('click', function () {
         page = 0;
+        search = SEARCH_OPTION_TRACKS;
         notifyPageChanged();
         fetchTracks();
         updateSearchOption(searchTracksBtn);
+    });
+
+    // alert modal
+    $(document).on('click', 'button.alert-button', function () {
+        let target = $(event.target);
+        let alertEvent = $(this).data('mode');
+        let isOkAction = (target.attr('id') === 'alertModalOkBtn') ? true : false;
+
+        // remove from body
+        controllerUtil.alertDialog.remove();
+
+        if (!isOkAction) return;
+
+        // check mode
+        switch (alertEvent){
+
+            case EVENT_DELETE:
+                deleteArtist();
+                break;
+
+            case EVENT_DELETE_SUCCESS:
+                controllerUtil.redirector.toHome();
+                break;
+        }
     });
 
     // pagination
@@ -117,12 +177,17 @@ function notifyPageChanged() {
     pageBtn.text(page + 1);
 }
 
+function populateView() {
+    artistNameField.text(artist.name);
+    albumTotalField.text(artist.album_total);
+}
+
 // requests
 function fetchArtist() {
     api.getArtistById(artistId)
         .done(function (data) {
-            artistNameField.text(data.name);
-            albumTotalField.text(data.album_total);
+            artist = data;
+            populateView();
         })
         .fail(function (reqeust) {
             errorHandler.handleFail(reqeust);
@@ -161,6 +226,20 @@ function fetchTracks() {
         });
 }
 
+function deleteArtist(){
+    api.deleteArtist(artistId)
+        .done(function (data){
+            controllerUtil.alertDialog.show(
+                'Artist Deleted',
+                'The artist was successfully deleted. You will now be redirected to home.',
+                EVENT_DELETE_SUCCESS
+            )
+        })
+        .fail(function (request){
+            errorHandler.handleFail(request);
+        });
+}
+
 function updateList(views) {
     // padination
     showPagination(views.length == 0);
@@ -191,9 +270,6 @@ function showPagination(isEmpty) {
 
 /////////////// UI   /////////////////////////
 function updateSearchOption(searchOption) {
-
-    updateAddButtonText(searchOption.attr('id'));
-
     if (!searchOption.hasClass('option-item-selected')) {
         // add class
         searchOption.addClass('option-item-selected');
@@ -206,17 +282,5 @@ function updateSearchOption(searchOption) {
         if (searchOption.attr('id') != searchTracksBtn.attr('id')) {
             searchTracksBtn.removeClass('option-item-selected');
         }
-    }
-}
-
-function updateAddButtonText(searchOption) {
-    switch (searchOption) {
-        case searchAlbumsBtn.attr('id'):
-            addBtn.text('Add Album');
-            break;
-
-        case searchTracksBtn.attr('id'):
-            addBtn.html('Add Track');
-            break;
     }
 }

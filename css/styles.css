@@ -250,7 +250,7 @@ div.trackmodal {
     padding: 20px;
 }
 
-div.albummodal {
+div.modal-small {
     width: 400px;
     background-color: var(--secondary-background);
     height: fit-content;

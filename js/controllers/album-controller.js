@@ -17,6 +17,10 @@ const nextBtn = $('#nextPageField');
 // list
 const list = $('#tracksList');
 
+// events
+const EVENT_DELETE = 'EVENT_DELETE';
+const EVENT_DELETE_SUCCESS = 'EVENT_DELETE_SUCCESS';
+
 // delegates
 const albumDelegate = {
     onAlbumUpdated(data){
@@ -81,13 +85,45 @@ function setupViews() {
     });
 
     deleteBtn.on('click', function (){
-        // TODO implement
+        controllerUtil.alertDialog.show(
+            'Delete Album',
+            'Are you sure you want to delete this album? This action cannot be undone.',
+            EVENT_DELETE,
+            {
+                ALERT_HAS_CANCEL: true,
+                ALERT_ACTION_TEXT: 'Delete'
+            }
+        );
     });
 
     addBtn.on('click', function (){
         if (album){
             // show modal if album exists and is fetched
-            trackModal.show({mode: TrackModalController.MODE_ADD_ALBUM_LOCKED, delegate: trackDelegate, track: null, album: album});
+            trackModal.show(TrackModalController.MODE_ADD_ALBUM_LOCKED, trackDelegate, null, album);
+        }
+    });
+
+    // alert modal
+    $(document).on('click', 'button.alert-button', function () {
+        let target = $(event.target);
+        let alertEvent = $(this).data('mode');
+        let isOkAction = (target.attr('id') === 'alertModalOkBtn') ? true : false;
+
+        // remove from body
+        controllerUtil.alertDialog.remove();
+
+        if (!isOkAction) return;
+
+        // check mode
+        switch (alertEvent){
+
+            case EVENT_DELETE:
+                deleteAlbum();
+                break;
+
+            case EVENT_DELETE_SUCCESS:
+                controllerUtil.redirector.toHome();
+                break;
         }
     });
 
@@ -142,6 +178,20 @@ function fetchTracks() {
             updateList(adapter.getTrackViews(tracks));
         })
         .fail(function (request) {
+            errorHandler.handleFail(request);
+        });
+}
+
+function deleteAlbum(){
+    api.deleteAlbum(albumId)
+        .done(function (data){
+            controllerUtil.alertDialog.show(
+                'Album Deleted',
+                'The album was successfully deleted. You will now be redirected to home.',
+                EVENT_DELETE_SUCCESS
+            )
+        })
+        .fail(function (request){
             errorHandler.handleFail(request);
         });
 }

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <title>Title</title>
+</head>
+<body>
+
+<div id="artistModalBackground" class="modal-background">
+
+    <div id="artistModal" class="modal-small horizontal-center center">
+
+        <div class="flex">
+            <h3 id="artistModalHeader" class="vertial-center width-fill height-fill">Artist</h3>
+            <img id="artistModalCloseBtn" src="icons/icon-close.svg"
+                 class="icon-small marginleft padding-small img-button pointer with-fit"/>
+        </div>
+
+        <div class="margintop">
+
+            <div class="width-fill">
+                <label class="input-header marginleft">Name</label>
+                <input id="artistModalNameField" placeholder="name" type="text" class="input margintop"
+                       maxlength="120" required>
+            </div>
+        </div>
+
+        <div class="flex-center margintop-big">
+
+            <button id="artistModalSaveBtn" class="button pointer modalButton">Save</button>
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+<script type="text/javascript" src="js/api.js"></script>
+<script type="text/javascript" src="js/session.js"></script>
+<script type="text/javascript" src="js/utl/error-handler.js"></script>
+<script type="text/javascript" src="js/utl/controller-util.js"></script>
+<script type="text/javascript" src="js/entities/artist.js"></script>
+<script type="text/javascript" src="js/adapters/adapter.js"></script>
+<script type="text/javascript" src="js/controllers/artist-modal-controller.js"></script>
+
+</html>

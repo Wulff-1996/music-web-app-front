@@ -216,7 +216,6 @@ class TrackModalController {
             self.updateAllInputFields();
 
             if (self.isInputsValid()) {
-
                 let milliseconds = controllerUtil.valueOrNull(self.millisecondsField.val());
                 milliseconds = (milliseconds) ? parseInt(milliseconds) : null;
 
@@ -735,7 +734,7 @@ class TrackModalController {
 }
 
 const trackModal = {
-    show({mode, delegate = null, track = null, album = null}) {
+    show(mode, delegate = null, track = null, album = null) {
         this.trackModalController = new TrackModalController(mode, delegate, track, album);
         this.trackModalController.show();
     },

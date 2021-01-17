@@ -1,7 +1,5 @@
 'use strict';
 
-// TODO fix _this references, bc it is also used in other files
-
 class AlbumModalController {
     // buttons
     closeBtn = $('#albumModalCloseBtn');
@@ -44,6 +42,10 @@ class AlbumModalController {
         return 'MODE_EDIT';
     }
 
+    static get MODE_ADD_ARTIST_LOCKED() {
+        return 'MODE_ADD_ARTIST_LOCKED';
+    }
+
     // events
     static get EVENT_ALBUM_UPDATED() {
         return 'EVENT_ALBUM_UPDATED';
@@ -61,28 +63,44 @@ class AlbumModalController {
     // fields
     page = 0;
     album = null;
+    artist = null;
     editAlbum = new Album();
 
-    constructor(mode, delegate, album = null) {
+    constructor(mode, delegate, album = null, artist = null) {
         this.mode = mode;
         this.delegate = delegate;
         this.album = album;
+        this.artist = artist;
 
-        if (mode === AlbumModalController.MODE_EDIT) {
-            if (this.album === null) {
-                throw 'Error: album needed for MODE_EDIT.';
-            }
+        switch (this.mode) {
+            case AlbumModalController.MODE_EDIT:
+                if (this.album === null) {
+                    throw 'Error: album needed for MODE_EDIT.';
+                }
 
-            // parse values from json album to editAlbum
-            this.editAlbum = new Album(
-                this.album.id,
-                this.album.title,
-                this.album.artist.id
-            );
-        } else {
-            // update flags
-            this.isValidTitle = false;
-            this.isValidArtist = false;
+                // parse values from json album to editAlbum
+                this.editAlbum = new Album(
+                    this.album.id,
+                    this.album.title,
+                    this.album.artist.id
+                );
+                break;
+
+            case AlbumModalController.MODE_ADD:
+                // update flags
+                this.isValidTitle = false;
+                this.isValidArtist = false;
+                break;
+
+            case AlbumModalController.MODE_ADD_ARTIST_LOCKED:
+                if (this.artist === null) {
+                    throw 'Error: artist needed for MODE_ADD_ARTIST_LOCKED.';
+                }
+
+                // update flags
+                this.isValidTitle = false;
+                this.isValidArtist = false;
+                break;
         }
     }
 
@@ -120,6 +138,13 @@ class AlbumModalController {
 
                 case AlbumModalController.MODE_ADD:
                     self.header.text('Add Album');
+                    break;
+
+                case AlbumModalController.MODE_ADD_ARTIST_LOCKED:
+                    self.header.text('Add Album');
+                    self.artistField.val(self.artist.name);
+                    // set field to disabled, cannot change album in this case
+                    self.artistField.attr("disabled", "disabled")
                     break;
             }
             self.setupViews();
@@ -252,10 +277,14 @@ class AlbumModalController {
 
         if (this.isInputsValid) {
 
+            let artistId = (this.mode === AlbumModalController.MODE_ADD_ARTIST_LOCKED)
+                ? this.artist.id
+                : this.editAlbum.artistId
+
             // create album entity
             let album = {
                 'title': this.titleField.val(),
-                'artist_id': this.editAlbum.artistId
+                'artist_id': artistId
             }
 
             switch (this.mode) {
@@ -263,6 +292,7 @@ class AlbumModalController {
                     this.updateAlbum(album);
                     break;
 
+                case AlbumModalController.MODE_ADD_ARTIST_LOCKED:
                 case AlbumModalController.MODE_ADD:
                     this.addAlbum(album)
                     break;
@@ -282,6 +312,9 @@ class AlbumModalController {
     }
 
     validateArtist() {
+        if (this.mode === AlbumModalController.MODE_ADD_ARTIST_LOCKED) {
+            return true;
+        }
         let artistValue = controllerUtil.valueOrNull(this.artistField.val());
         return (this.editAlbum.artistId != null && artistValue != null) ? true : false;
     }
@@ -404,8 +437,8 @@ class AlbumModalController {
 }
 
 const albumModal = {
-    show(mode, delegate = null, album = null) {
-        this.albumModalController = new AlbumModalController(mode, delegate, album);
+    show(mode, delegate = null, album = null, artist = null) {
+        this.albumModalController = new AlbumModalController(mode, delegate, album, artist);
         this.albumModalController.show();
     },
     dissmiss() {

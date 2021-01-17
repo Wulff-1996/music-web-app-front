@@ -103,7 +103,7 @@ function setupViews() {
                 ALERT_HAS_CANCEL: true,
                 ALERT_ACTION_TEXT: 'Delete'
             }
-        )
+        );
     });
 
     artistNameField.on('click', function () {
@@ -115,15 +115,18 @@ function setupViews() {
     });
 
     // alert error modal
-    $(document).on('click', '#alertModalOkBtn', function () {
-        // get mode
-        let mode = $(this).data('mode');
+    $(document).on('click', 'button.alert-button', function () {
+        let target = $(event.target);
+        let alertEvent = $(this).data('mode');
+        let isOkAction = (target.attr('id') === 'alertModalOkBtn') ? true : false;
 
         // remove from body
         controllerUtil.alertDialog.remove();
 
+        if (!isOkAction) return;
+
         // check mode
-        switch (mode){
+        switch (alertEvent){
 
             case EVENT_DELETE:
                 deleteTrack();

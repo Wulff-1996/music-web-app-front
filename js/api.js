@@ -131,6 +131,18 @@ const api = {
         return http.put('albums/' + id, album);
     },
     addAlbum(album){
-        return http.post('albums', album)
+        return http.post('albums', album);
+    },
+    deleteAlbum(id){
+        return http.delete('albums/' + id);
+    },
+    updateArtist(id, artist){
+        return http.put('artists/' + id, artist);
+    },
+    addArtist(artist){
+        return http.post('artists', artist);
+    },
+    deleteArtist(id){
+        return http.delete('artists/' + id);
     }
 }

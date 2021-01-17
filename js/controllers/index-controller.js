@@ -110,8 +110,6 @@ function setupViews() {
     });
 
     addBtn.on('click', function () {
-        // TODO show add dialog here
-
         switch (getSearchOptionId()) {
 
             case 'searchTracks':
@@ -119,6 +117,7 @@ function setupViews() {
                 break;
 
             case 'searchArtists':
+                artistModal.show(ArtistModalController.MODE_ADD);
                 break;
 
             case 'searchAlbums':
