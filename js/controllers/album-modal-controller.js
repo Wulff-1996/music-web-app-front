@@ -64,7 +64,6 @@ class AlbumModalController {
     editAlbum = new Album();
 
     constructor(mode, delegate, album = null) {
-        _this = this;
         this.mode = mode;
         this.delegate = delegate;
         this.album = album;
@@ -92,36 +91,38 @@ class AlbumModalController {
     }
 
     show() {
+        let self = this;
+
         // load html and bind views to intance
         $('#albumModalContainer').load('albummodal.html #albumModalBackground', function () {
             // bind views
             // buttons
-            _this.closeBtn = $('#albumModalCloseBtn');
-            _this.saveBtn = $('#albumModalSaveBtn');
+            self.closeBtn = $('#albumModalCloseBtn');
+            self.saveBtn = $('#albumModalSaveBtn');
 
             // drop down
-            _this.artistDropDown = $('#albumModalArtistDropDown');
+            self.artistDropDown = $('#albumModalArtistDropDown');
 
             // list
-            _this.artistList = $('#albumModalArtistList');
+            self.artistList = $('#albumModalArtistList');
 
             // fields
-            _this.header = $('#albumModalHeader');
-            _this.titleField = $('#albumModalTitleField');
-            _this.artistField = $('#albumModalArtistField');
-            _this.artistPageField = $('#albumModalArtistPageField');
+            self.header = $('#albumModalHeader');
+            self.titleField = $('#albumModalTitleField');
+            self.artistField = $('#albumModalArtistField');
+            self.artistPageField = $('#albumModalArtistPageField');
 
-            switch (_this.mode) {
+            switch (self.mode) {
                 case AlbumModalController.MODE_EDIT:
-                    _this.header.text('Edit Album');
-                    _this.populateView();
+                    self.header.text('Edit Album');
+                    self.populateView();
                     break;
 
                 case AlbumModalController.MODE_ADD:
-                    _this.header.text('Add Album');
+                    self.header.text('Add Album');
                     break;
             }
-            _this.setupViews();
+            self.setupViews();
         });
     }
 
@@ -131,14 +132,16 @@ class AlbumModalController {
     }
 
     setupViews() {
+        let self = this;
+
         // listeners
         // buttons
         this.saveBtn.on('click', function () {
-            _this.handleSave();
+            self.handleSave();
         });
 
         this.closeBtn.on('click', function () {
-            _this.dismiss();
+            self.dismiss();
         });
 
         // alert modal button
@@ -162,47 +165,47 @@ class AlbumModalController {
         // dropdown
         this.artistField.keyup(function () {
             // update flag and input field UI
-            _this.isValidArtist = _this.validateArtist();
-            _this.updateInputField(_this.artistField, _this.isValidArtist);
+            self.isValidArtist = self.validateArtist();
+            self.updateInputField(self.artistField, self.isValidArtist);
 
             // update data
-            _this.editAlbum.artistId = null;
+            self.editAlbum.artistId = null;
 
             // get search
-            let search = _this.artistField.val();
+            let search = self.artistField.val();
 
             // show dropdown if not visible
-            _this.showDropDown();
+            self.showDropDown();
 
             // fetch data
-            _this.fetchArtists(search);
+            self.fetchArtists(search);
         });
 
         this.artistField.on('click', function (e) {
             e.stopPropagation();
 
-            let search = _this.artistField.val();
+            let search = self.artistField.val();
 
             // show dropdown if not visible
-            _this.showDropDown();
+            self.showDropDown();
 
             // fetch data
-            _this.fetchArtists(search);
+            self.fetchArtists(search);
         });
 
         this.titleField.keyup(function () {
-            _this.isValidTitle = _this.validateInput(_this.titleField);
-            _this.updateInputField(_this.titleField, _this.isValidTitle);
+            self.isValidTitle = self.validateInput(self.titleField);
+            self.updateInputField(self.titleField, self.isValidTitle);
         });
 
         // document listeners
         $('#albumModalBackground').on('click', function (event) {
 
             // hide dropdown if outside dropdown
-            if (!_this.artistDropDown.is(event.target) &&
-                _this.artistDropDown.has(event.target).length === 0
+            if (!self.artistDropDown.is(event.target) &&
+                self.artistDropDown.has(event.target).length === 0
             ) {
-                _this.hideDropDown()
+                self.hideDropDown()
             }
         });
 
@@ -212,21 +215,21 @@ class AlbumModalController {
             let id = target.data('id');
             let name = target.data('name');
 
-            _this.editAlbum.artistId = id;
-            _this.artistField.val(name);
-            _this.isValidArtist = true;
-            _this.updateInputField(_this.artistField, _this.isValidArtist);
-            _this.hideDropDown();
+            self.editAlbum.artistId = id;
+            self.artistField.val(name);
+            self.isValidArtist = true;
+            self.updateInputField(self.artistField, self.isValidArtist);
+            self.hideDropDown();
         });
 
         // pagination
         $('img.albumModalPreviousPage').on('click', function () {
-            if (_this.page > 0) {
-                _this.page--;
-                _this.notifyPageChanged();
+            if (self.page > 0) {
+                self.page--;
+                self.notifyPageChanged();
 
-                let search = _this.artistField.val();
-                _this.fetchArtists(search);
+                let search = self.artistField.val();
+                self.fetchArtists(search);
             }
         });
 
@@ -234,11 +237,11 @@ class AlbumModalController {
             let isDisabled = $(this).attr('disabled');
             // null means it does not have disabled
             if (isDisabled == null) {
-                _this.page++;
-                _this.notifyPageChanged();
+                self.page++;
+                self.notifyPageChanged();
 
-                let search = _this.artistField.val();
-                _this.fetchArtists(search);
+                let search = self.artistField.val();
+                self.fetchArtists(search);
             }
         });
     }
@@ -255,9 +258,7 @@ class AlbumModalController {
                 'artist_id': this.editAlbum.artistId
             }
 
-            console.log(album)
-
-            switch (_this.mode) {
+            switch (this.mode) {
                 case AlbumModalController.MODE_EDIT:
                     this.updateAlbum(album);
                     break;
@@ -344,14 +345,15 @@ class AlbumModalController {
 
     /////////////  API Calls ////////////////////////
     updateAlbum(album) {
+        let self = this;
         let id = this.album.id;
 
         api.updateAlbum(id, album)
             .done(function (data) {
-                if (_this.delegate) {
-                    _this.delegate.onAlbumUpdated(data);
+                if (self.delegate) {
+                    self.delegate.onAlbumUpdated(data);
                 }
-                _this.dismiss();
+                self.dismiss();
                 controllerUtil.alertDialog.show(
                     'Album Updated',
                     'The album has been successfully updated',
@@ -364,12 +366,14 @@ class AlbumModalController {
     }
 
     addAlbum(album) {
+        let self = this;
+
         api.addAlbum(album)
             .done(function (data) {
-                if (_this.delegate) {
-                    _this.delegate.onAlbumAdded(data);
+                if (self.delegate) {
+                    self.delegate.onAlbumAdded(data);
                 }
-                _this.dismiss();
+                self.dismiss();
                 controllerUtil.alertDialog.show(
                     'Album Added',
                     'Album has been successfully added.',
@@ -382,6 +386,7 @@ class AlbumModalController {
     }
 
     fetchArtists(search) {
+        let self = this;
         let params = {
             'name': search,
             'page': this.page,
@@ -390,8 +395,8 @@ class AlbumModalController {
 
         api.getArtists(params)
             .done(function (data) {
-                _this.enableNextPage(data.artists.length == AlbumModalController.RESULT_COUNT);
-                _this.populateList(data.artists);
+                self.enableNextPage(data.artists.length == AlbumModalController.RESULT_COUNT);
+                self.populateList(data.artists);
             })
             .fail(function (response) {
                 errorHandler.handleFail(response);
