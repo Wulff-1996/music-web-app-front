@@ -35,48 +35,42 @@ const stateField = $('#stateField');
 const countryField = $('#countryField');
 const postalcodeField = $('#postalCodeField');
 
-// infoText
-const infoTextField = $('#info');
+// events
+const EVENT_SIGN_UP_SUCCESS = 'EVENT_SIGN_UP_SUCCESS';
+const EVENT_SIGN_UP_FAILED = 'EVENT_SIGN_UP_FAILED';
 
 $(document).ready(function () {
 
+    setupViews();
+});
+
+function setupViews() {
     signupBtn.on('click', function () {
-
-        // update input fields UI
-        validateAllInputs();
-
-        // check if inputs are valid
-        if (validateInput()) {
-
-            // remove info text
-            updateInfoText(true);
-
-            let customer = {
-                    'first_name': controllerUtil.valueOrNull(firstNameField.val()),
-                    "last_name": controllerUtil.valueOrNull(lastNameField.val()),
-                    "email": controllerUtil.valueOrNull(emailField.val()),
-                    "password": controllerUtil.valueOrNull(passwordField.val()),
-                    "phone": controllerUtil.valueOrNull(phoneField.val()),
-                    "fax": controllerUtil.valueOrNull(faxField.val()),
-                    "company": controllerUtil.valueOrNull(companyField.val()),
-                    "address": controllerUtil.valueOrNull(addressField.val()),
-                    "city": controllerUtil.valueOrNull(cityField.val()),
-                    "postal_code": controllerUtil.valueOrNull(postalcodeField.val()),
-                    "state": controllerUtil.valueOrNull(stateField.val()),
-                    "country": controllerUtil.valueOrNull(countryField.val())
-                };
-
-            // make api call
-            signupCustomer(customer);
-        } else {
-            // show infoText
-            updateInfoText(false, 'Enter required fields, or format input correctly');
-        }
+        handleSignupCustomer();
     });
 
     backBtn.on('click', function () {
         window.location.href = 'login.html';
-    })
+    });
+
+    // alert modal
+    $(document).on('click', 'button.alert-button', function () {
+        let target = $(event.target);
+        let alertEvent = $(this).data('mode');
+        let isOkAction = (target.attr('id') === 'alertModalOkBtn') ? true : false;
+
+        // remove from body
+        controllerUtil.alertDialog.remove();
+
+        if (!isOkAction) return;
+
+        // check mode
+        switch (alertEvent) {
+            case EVENT_SIGN_UP_SUCCESS:
+                controllerUtil.redirector.toLogin();
+                break;
+        }
+    });
 
     // listeners
     firstNameField.keyup(function () {
@@ -138,24 +132,47 @@ $(document).ready(function () {
         isValidPostalCode = document.getElementById('postalcodeField').checkValidity();
         updateInputField(isValidPostalCode);
     });
-});
+}
+
+function handleSignupCustomer() {
+    // update input fields UI
+    validateAllInputs();
+
+    // check if inputs are valid
+    if (validateInput()) {
+
+        let customer = {
+            'first_name': controllerUtil.valueOrNull(firstNameField.val()),
+            "last_name": controllerUtil.valueOrNull(lastNameField.val()),
+            "email": controllerUtil.valueOrNull(emailField.val()),
+            "password": controllerUtil.valueOrNull(passwordField.val()),
+            "phone": controllerUtil.valueOrNull(phoneField.val()),
+            "fax": controllerUtil.valueOrNull(faxField.val()),
+            "company": controllerUtil.valueOrNull(companyField.val()),
+            "address": controllerUtil.valueOrNull(addressField.val()),
+            "city": controllerUtil.valueOrNull(cityField.val()),
+            "postal_code": controllerUtil.valueOrNull(postalcodeField.val()),
+            "state": controllerUtil.valueOrNull(stateField.val()),
+            "country": controllerUtil.valueOrNull(countryField.val())
+        };
+
+        // make api call
+        signupCustomer(customer);
+    }
+}
 
 function signupCustomer(customer) {
 
     api.signupCustomer(customer)
         .done(function (data) {
-
-            // remove error message
-            updateInfoText(true, '')
-
-            // alert user the user has been created
-            alert('Customer Saved. You will be redirected to login.')
-
-            // redirect to login
-            window.location.href = 'login.html';
+            controllerUtil.alertDialog.show(
+                'Account Created',
+                'You have successfully created an account. You will now be redirected to the login page. Provide your Mail and Password to access your newly created account.',
+                EVENT_SIGN_UP_SUCCESS
+            );
         })
         .fail(function (request) {
-            updateInfoText(false, request.responseText);
+            errorHandler.handleFail(request);
         });
 }
 
@@ -166,16 +183,6 @@ function validateInput() {
         return true;
     } else {
         return false;
-    }
-}
-
-function updateInfoText(isValid, message) {
-    infoTextField.text(message);
-    if (isValid) {
-        infoTextField.addClass('invisible');
-    } else {
-        infoTextField.removeClass('invisible');
-        infoTextField.addClass('auth-container-info-text');
     }
 }
 
