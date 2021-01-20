@@ -43,7 +43,9 @@ function createTrackViews(tracks, mode = null) {
             'class': 'icon-small'
         }).appendTo(header);
 
-        $('<h5>' + track.title + '</h5>').appendTo(header);
+        $('<h5 />')
+            .text(track.title)
+            .appendTo(header);
 
         let subheader = $('<div />', {
             'class': 'itemSubheader'
@@ -53,21 +55,27 @@ function createTrackViews(tracks, mode = null) {
             'src': 'icons/icon-artist-muted.svg',
             'class': 'icon-extra-small icon-margin'
         }).appendTo(subheader);
-        $('<p>' + track.artist['name'] + '</p>').appendTo(subheader);
+        $('<p />')
+            .text(track.artist['name'])
+            .appendTo(subheader);
         $('<div/>', {'class': 'verticalDivider marginleft marginright'}).appendTo(subheader);
 
         $('<img/>', {
             'src': 'icons/icon-album-muted.svg',
             'class': 'icon-extra-small icon-margin'
         }).appendTo(subheader);
-        $('<p>' + track.album['title'] + '</p>').appendTo(subheader);
+        $('<p />')
+            .text(track.album['title'])
+            .appendTo(subheader);
         $('<div/>', {'class': 'verticalDivider marginleft marginright'}).appendTo(subheader);
 
         $('<img/>', {
             'src': 'icons/icon-price-muted.svg',
             'class': 'icon-extra-small icon-margin'
         }).appendTo(subheader);
-        $('<p>' + track.unit_price + '</p>').appendTo(subheader);
+        $('<p />')
+            .text(track.unit_price)
+            .appendTo(subheader);
 
         const rightContainer = $('<div/>', {'class':'flex-center'}).appendTo(trackView);
 
@@ -117,7 +125,9 @@ function createArtistViews(artists) {
             'class': 'icon-small'
         }).appendTo(header);
 
-        $('<h5>' + artist.name + '</h5>').appendTo(header);
+        $('<h5 />')
+            .text(artist.name)
+            .appendTo(header);
 
         let subheader = $('<div />', {
             'class': 'itemSubheader'
@@ -127,7 +137,9 @@ function createArtistViews(artists) {
             'src': 'icons/icon-album-muted.svg',
             'class': 'icon-extra-small icon-margin'
         }).appendTo(subheader);
-        $('<p>' + artist.album_total + '</p>').appendTo(subheader);
+        $('<p />')
+            .text(artist.album_total)
+            .appendTo(subheader);
 
         artistViews.push(artistView);
     });
@@ -152,7 +164,9 @@ function createAlbumViews(albums) {
             'class': 'icon-small'
         }).appendTo(header);
 
-        $('<h5>' + album.title + '</h5>').appendTo(header);
+        $('<h5 />')
+            .text(album.title)
+            .appendTo(header);
 
         let subheader = $('<div />', {
             'class': 'itemSubheader'
@@ -162,14 +176,18 @@ function createAlbumViews(albums) {
             'src': 'icons/icon-artist-muted.svg',
             'class': 'icon-extra-small icon-margin'
         }).appendTo(subheader);
-        $('<p>' + album.artist.name + '</p>').appendTo(subheader);
+        $('<p />')
+            .text(album.artist.name)
+            .appendTo(subheader);
         $('<div/>', {'class': 'verticalDivider marginleft marginright'}).appendTo(subheader);
 
         $('<img/>', {
             'src': 'icons/icon-track-muted.svg',
             'class': 'icon-extra-small icon-margin'
         }).appendTo(subheader);
-        $('<p>' + album.track_total + '</p>').appendTo(subheader);
+        $('<p />')
+            .text(album.track_total)
+            .appendTo(subheader);
 
         albumViews.push(albumView);
     });
